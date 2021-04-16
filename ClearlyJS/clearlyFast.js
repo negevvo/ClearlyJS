@@ -1,4 +1,5 @@
 /**
+ * THIS IS NOT THE FINAL VERSION! DO NOT USE IT!
  * ClearlyFast - making images load faster with ClearlyJs
  * @author Negev Volokita (negevvo)
  * @version 1
