@@ -1,4 +1,5 @@
 /**
+ * THIS IS NOT THE FINAL VERSION! DO NOT USE IT!
  * ClearlyDebug - a debugging tool for ClearlyJs
  * @author Negev Volokita (negevvo)
  * @version 1
