@@ -12,7 +12,7 @@ class clrly {
 	 * @returns HTML element of the tool's file
 	 */
 	static using(toolName){
-		var url = "http://localhost:16384/V2/clearlyJsV2.js";
+		var url = "https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS/ClearlyJS/clearlyDebug.js";
 		url = url.replace(url.substring(url.lastIndexOf("/")), "");
 		switch(toolName.toLowerCase()){
 			case "debug":
