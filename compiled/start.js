@@ -1,4 +1,5 @@
-const CLEARLYJS_URL = `clearly.js`;
+const CLEARLYJS_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS/ClearlyJS/clearly.js`;
+const CLEARLYDEBUG_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS/ClearlyJS/clearlyDebug.js`;
 init("Get Started", "../..");
 mainStyle();
 clrly.style(`
@@ -33,7 +34,9 @@ clrly.new("main", null, clrly.new("h1", {
   class: "title"
 }, "1. Import ", APP_NAME, " to your project"), clrly.new("h3", null, "To start using ", APP_NAME, ", open a new HTML page and add this line as the first line of your head tag:"), clrly.new("xmp", {
   id: "importCode"
-}, `<script src="${CLEARLYJS_URL}"></script>`), clrly.new("h3", null, "That's it! your project is now connected to ", APP_NAME), clrly.new("h2", {
+}, `<script src="${CLEARLYJS_URL}"></script>`), clrly.new("h3", null, "It is recommended to use ClearlyDebug:"), clrly.new("xmp", {
+  id: "importCode"
+}, `<script src="${CLEARLYJS_URL}"></script>`, `<script src="${CLEARLYDEBUG_URL}" defer></script>`), clrly.new("h3", null, "That's it! your project is now connected to ", APP_NAME), clrly.new("h2", {
   class: "title"
 }, "2. Optional: Set-up Babel and JSX"), clrly.new("h3", null, clrly.new("a", {
   href: "https://reactjs.org/docs/introducing-jsx.html",

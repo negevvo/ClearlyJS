@@ -1,4 +1,5 @@
-const CLEARLYJS_URL = `clearly.js`;
+const CLEARLYJS_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS/ClearlyJS/clearly.js`;
+const CLEARLYDEBUG_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS/ClearlyJS/clearlyDebug.js`;
 
 init("Get Started", "../..");
 mainStyle();
@@ -34,6 +35,11 @@ nav();
     <h3>To start using {APP_NAME}, open a new HTML page and add this line as the first line of your head tag:</h3>
     <xmp id="importCode">
         {`<script src="${CLEARLYJS_URL}"></script>`}
+    </xmp>
+    <h3>It is recommended to use ClearlyDebug:</h3>
+    <xmp id="importCode">
+        {`<script src="${CLEARLYJS_URL}"></script>`}
+        {`<script src="${CLEARLYDEBUG_URL}" defer></script>`}
     </xmp>
     <h3>That's it! your project is now connected to {APP_NAME}</h3>
     <h2 class="title">2. Optional: Set-up Babel and JSX</h2>
