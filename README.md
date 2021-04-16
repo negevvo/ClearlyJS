@@ -1,0 +1,2 @@
+# ClearlyJS
+Make it simple!
