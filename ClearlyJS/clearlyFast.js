@@ -1,11 +1,16 @@
 /**
- * THIS IS NOT THE FINAL VERSION! DO NOT USE IT!
  * ClearlyFast - making images load faster with ClearlyJs
  * @author Negev Volokita (negevvo)
  * @version 1
  */
-class clearlyFast{
-    static _clearlyFast;
+class clrlyFast{
+    static get _clearlyFast(){
+        return this.__clearlyFast;
+    }
+    static set _clearlyFast(clearlyFast){
+        this.__clearlyFast = clearlyFast;
+    }
+
     /**
      * Initialize the tool
      */
