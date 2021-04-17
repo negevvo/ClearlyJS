@@ -1,5 +1,4 @@
 /**
- * THIS IS NOT THE FINAL VERSION! DO NOT USE IT!
  * ClearlyDebug - a debugging tool for ClearlyJs
  * @author Negev Volokita (negevvo)
  * @version 1
@@ -32,7 +31,7 @@ class clrlyDebug{
 				filter: drop-shadow(0 0 20px #ff4d4d) !important;
 				cursor: pointer !important;
 			}
-			#clearlyErrorsback{
+			#clearlyErrorsBack{
 				display: none;
 				position: fixed !important;
 				z-index: 1001 !important;

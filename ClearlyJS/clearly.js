@@ -1,5 +1,4 @@
 /**
- * THIS IS NOT THE FINAL VERSION! DO NOT USE IT!
  * ClearlyJs
  * @author Negev Volokita (negevvo)
  * @version 1
@@ -13,7 +12,7 @@ class clrly {
 	 * @returns HTML element of the tool's file
 	 */
 	static using(toolName){
-		var url = "https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS/ClearlyJS/clearly.js";
+		var url = "https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearly.js";
 		url = url.replace(url.substring(url.lastIndexOf("/")), "");
 		switch(toolName.toLowerCase()){
 			case "debug":
