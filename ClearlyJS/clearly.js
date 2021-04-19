@@ -111,7 +111,7 @@ class clrly {
 	 */
 	static add(HTML, parent){
 		if(typeof(parent) != "undefined"){
-			parent.innerHTML+=HTML;
+			parent.innerHTML += HTML;
 		}else{
 			document.write(HTML);
 		}
@@ -122,10 +122,11 @@ class clrly {
 	 * Get element by id
 	 * @param {string} id id of the element
 	 * @returns           DOM element with the specified id, or null
+	 * @see Xid
 	 */
 	static id(id){
 		try{
-		return document.getElementById(id);
+		return this.Xid(document, id);
 		}catch(e){
 			return null;
 		}
@@ -135,10 +136,11 @@ class clrly {
 	 * Get elements by class name
 	 * @param {string} className class name of the elements
 	 * @returns                  HTML elements collection which includes all elements with the specified class name, or null
-	 */
+	 * @see Xclass
+	*/
 	static class(className){
 		try{
-			return document.getElementsByClassName(className);
+			return this.Xclass(document, className);
 		}catch(e){
 			return null;
 		}
@@ -148,10 +150,25 @@ class clrly {
 	 * Get elements by tag name
 	 * @param {string} tagName tag name of the elements
 	 * @returns                HTML elements collection which includes all elements with the specified tag name, or null
+	 * @see Xtag
 	 */
 	static tag(tagName){
 		try{
-			return document.getElementsByTagName(tagName);
+			return this.Xtag(document, tagName);
+		}catch(e){
+			return null;
+		}
+	}
+
+	/**
+	 * Get elements by Query selector (CSS selector)
+	 * @param {string} selector Query selector
+	 * @returns                HTML elements collection which includes all elements with the specified Query selector, or null
+	 * @see Xselect
+	 */
+	 static select(selector){
+		try{
+			return this.Xselect(document, selector);
 		}catch(e){
 			return null;
 		}
@@ -162,10 +179,11 @@ class clrly {
 	 * @param {string} attribute attribute name of the elements
 	 * @param {string} value     value of the attribute
 	 * @returns                  HTML elements collection which includes all elements with the specified attribute and attribute value, or null
+	 * @see Xattribute
 	 */
 	 static attribute(attribute, value){
 		try{
-			return document.querySelectorAll('['+attribute+'="'+value+'"]');
+			return this.Xattribute(document, attribute, value);
 		}catch(e){
 			return null;
 		}
@@ -456,6 +474,20 @@ class clrly {
 	}
 
 	/**
+	 * Get XML elements by Query selector (CSS selector)
+	 * @param {*} xml XML element @see getXML
+	 * @param {string} selector Query selector
+	 * @returns                HTML elements collection which includes all elements with the specified Query selector, or null
+	 */
+	 static Xselect(xml, selector){
+		try{
+			return xml.querySelectorAll(selector);
+		}catch(e){
+			return null;
+		}
+	}
+
+	/**
 	 * Get XML elements by attribute
 	 * @param {*} xml XML element @see getXML
 	 * @param {string} attribute attribute name of the XML elements
@@ -464,7 +496,7 @@ class clrly {
 	 */
 	 static Xattribute(xml, attribute, value){
 		try{
-			return xml.querySelectorAll('['+attribute+'="'+value+'"]');
+			return this.Xselect(xml, '['+attribute+'="'+value+'"]');
 		}catch(e){
 			return null;
 		}
