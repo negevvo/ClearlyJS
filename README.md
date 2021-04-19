@@ -3,6 +3,8 @@
 [![](https://img.shields.io/badge/license-MIT-1abc9c.svg)](LICENSE)
 [![](https://img.shields.io/website?down_color=red&down_message=down&label=jsDelivr&up_color=orange&up_message=up&url=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2Fnegevvo%2FClearlyJS%40main%2FClearlyJS%2Fclearly.js)](https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearly.js)
 
+[![Edit ClearlyJS template](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/clearlyjs-template-wrsjv?fontsize=14&hidenavigation=1&module=%2Fcode%2Findex.js&theme=dark)
+
 <p align="center"><img src="https://negevvo.github.io/ClearlyJS/icon.png" height="150px"/></p>
 
 ---
