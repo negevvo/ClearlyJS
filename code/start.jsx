@@ -1,5 +1,5 @@
-const CLEARLYJS_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS/ClearlyJS/clearly.js`;
-const CLEARLYDEBUG_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS/ClearlyJS/clearlyDebug.js`;
+const CLEARLYJS_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearly.js`;
+const CLEARLYDEBUG_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearlyDebug.js`;
 
 init("Get Started", "../..");
 mainStyle();
@@ -21,6 +21,7 @@ nav();
 <main>
     <h1 id="start" class="title">Get Started with {APP_NAME}</h1>
     <h2>This page will guide you in creating your first {APP_NAME} single-page app!</h2>
+    <h2 class="title" style="color: #800000">CLEARLY IS NOT OFFICIALY OUT YET! THIS PAGE CAN CHANGE!</h2>
     <br/>
     <h2 id="whatIs" class="title">What is {APP_NAME}?</h2>
     <p>{APP_NAME} is a simple and open source JavaScript library, made for making small-scale apps in no time - and without learning a new language!
@@ -39,6 +40,7 @@ nav();
     <h3>It is recommended to use ClearlyDebug:</h3>
     <xmp id="importCode">
         {`<script src="${CLEARLYJS_URL}"></script>`}
+        <br/>
         {`<script src="${CLEARLYDEBUG_URL}" defer></script>`}
     </xmp>
     <h3>That's it! your project is now connected to {APP_NAME}</h3>

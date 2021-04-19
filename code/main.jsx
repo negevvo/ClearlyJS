@@ -10,7 +10,7 @@ var bg, bgTxt;
             {APP_NAME}
         <br/>a JavaScript library by <a href="https://twitter.com/negevvo" target="_blank">negevvo</a>
         </h2>
-        <h2 class="title">COMING SOON.</h2>
+        <h2 class="title"><a href="pages/start">Get started!</a> | <a href="#">Documentation (soon)</a> | <a href="https://github.com/negevvo/ClearlyJS" target="_blank">Github</a></h2>
     </div>
 </main>
 

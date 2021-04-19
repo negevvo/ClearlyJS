@@ -20,7 +20,14 @@ clrly.new("main", null, bg = clrly.new("div", {
   target: "_blank"
 }, "negevvo")), clrly.new("h2", {
   class: "title"
-}, "COMING SOON.")));
+}, clrly.new("a", {
+  href: "pages/start"
+}, "Get started!"), " | ", clrly.new("a", {
+  href: "#"
+}, "Documentation (soon)"), " | ", clrly.new("a", {
+  href: "https://github.com/negevvo/ClearlyJS",
+  target: "_blank"
+}, "Github"))));
 const FEATURES = [`${APP_NAME}`, `Simple`, `Dynamic`, `Light`, `Fast`, `JSX support`, `The new JavaScript`, `Debugging tools`, `Super Fast image loading`, `XML tools`, `DOM tools`, `URL tools`, `Cookies`, `Components`, `Vanilla JS support`, `Mobile compatible`, `Open source`];
 
 for (var i = 0; i < 10; i++) {

@@ -1,5 +1,5 @@
-const CLEARLYJS_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS/ClearlyJS/clearly.js`;
-const CLEARLYDEBUG_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS/ClearlyJS/clearlyDebug.js`;
+const CLEARLYJS_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearly.js`;
+const CLEARLYDEBUG_URL = `https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearlyDebug.js`;
 init("Get Started", "../..");
 mainStyle();
 clrly.style(`
@@ -20,7 +20,10 @@ nav();
 clrly.new("main", null, clrly.new("h1", {
   id: "start",
   class: "title"
-}, "Get Started with ", APP_NAME), clrly.new("h2", null, "This page will guide you in creating your first ", APP_NAME, " single-page app!"), clrly.new("br", null), clrly.new("h2", {
+}, "Get Started with ", APP_NAME), clrly.new("h2", null, "This page will guide you in creating your first ", APP_NAME, " single-page app!"), clrly.new("h2", {
+  class: "title",
+  style: "color: #800000"
+}, "CLEARLY IS NOT OFFICIALY OUT YET! THIS PAGE CAN CHANGE!"), clrly.new("br", null), clrly.new("h2", {
   id: "whatIs",
   class: "title"
 }, "What is ", APP_NAME, "?"), clrly.new("p", null, APP_NAME, " is a simple and open source JavaScript library, made for making small-scale apps in no time - and without learning a new language!", clrly.new("br", null), APP_NAME, " uses the latest JavaScript features (Such as ", clrly.new("a", {
@@ -36,7 +39,7 @@ clrly.new("main", null, clrly.new("h1", {
   id: "importCode"
 }, `<script src="${CLEARLYJS_URL}"></script>`), clrly.new("h3", null, "It is recommended to use ClearlyDebug:"), clrly.new("xmp", {
   id: "importCode"
-}, `<script src="${CLEARLYJS_URL}"></script>`, `<script src="${CLEARLYDEBUG_URL}" defer></script>`), clrly.new("h3", null, "That's it! your project is now connected to ", APP_NAME), clrly.new("h2", {
+}, `<script src="${CLEARLYJS_URL}"></script>`, clrly.new("br", null), `<script src="${CLEARLYDEBUG_URL}" defer></script>`), clrly.new("h3", null, "That's it! your project is now connected to ", APP_NAME), clrly.new("h2", {
   class: "title"
 }, "2. Optional: Set-up Babel and JSX"), clrly.new("h3", null, clrly.new("a", {
   href: "https://reactjs.org/docs/introducing-jsx.html",
