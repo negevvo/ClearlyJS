@@ -13,7 +13,8 @@ clrly.style(`
         background-color: white;
         border-radius: 10px;
         max-width: 100vw;
-        white-space: pre-wrap
+        white-space: pre-wrap;
+        word-break: break-word;
     }
 `);
 nav();
