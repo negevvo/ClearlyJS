@@ -110,11 +110,10 @@ class clrly {
 	 * @returns             the HTML code
 	 */
 	static add(HTML, parent){
-		if(typeof(parent) != "undefined"){
-			parent.innerHTML += HTML;
-		}else{
-			document.write(HTML);
+		if(typeof(parent) == "undefined"){
+			parent = document.documentElement;
 		}
+		parent.innerHTML += HTML;
 		return HTML;
 	}
 
@@ -412,7 +411,25 @@ class clrly {
 	}
 
 
-	// **************************** XML ****************************
+	// **************************** AJAX ****************************
+	/**
+	 * Starts a new AJAX request
+	 * @param {string} url URL to send the request to
+	 * @param {*} params configuration of the request: {method: "GET", mode: "cors"}
+	 * @param {function} callback a callback function that gets the response text
+	 */
+	static ajax(url, params, callback){
+		fetch(url, params).then(response => response.text()).then(response => callback(response));
+	}
+	/**
+	 * Starts a new AJAX request for a JSON file
+	 * @param {string} url JSON file URL
+	 * @param {*} params configuration of the request: {method: "GET", mode: "cors"}
+	 * @param {function} callback a callback function that gets the formated JSON
+	 */
+	static json(url, params, callback){
+		fetch(url, params).then(response => response.json()).then(response => callback(response));
+	}
 	/**
 	 * Opens an xml file
 	 * @param {sttring} URL URL of the XML file
