@@ -28,7 +28,7 @@ clrly.new("main", null, bg = clrly.new("div", {
   href: "https://github.com/negevvo/ClearlyJS",
   target: "_blank"
 }, "Github"))));
-const FEATURES = [`${APP_NAME}`, `Simple`, `Dynamic`, `Light`, `Fast`, `JSX support`, `The new JavaScript`, `Debugging tools`, `Super Fast image loading`, `XML tools`, `DOM tools`, `URL tools`, `Cookies`, `Components`, `Vanilla JS support`, `Mobile compatible`, `Open source`];
+const FEATURES = [`${APP_NAME}`, `Simple`, `Dynamic`, `Light`, `Fast`, `JSX support`, `The new JavaScript`, `Debugging tools`, `Super Fast image loading`, `AJAX requests`, `XML tools`, `DOM tools`, `URL tools`, `Cookies`, `Components`, `Vanilla JS support`, `Mobile compatible`, `Open source`];
 
 for (var i = 0; i < 10; i++) {
   FEATURES.forEach(function (feature, index) {
