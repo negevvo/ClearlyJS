@@ -5,6 +5,8 @@
 
 [![Edit ClearlyJS template](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/clearlyjs-template-wrsjv?fontsize=14&hidenavigation=1&module=%2Fcode%2Findex.js&theme=dark)
 
+[Edit on CodePen](https://codepen.io/pen/?template=KKajRxM)
+
 <p align="center"><img src="https://negevvo.github.io/ClearlyJS/icon.png" height="150px"/></p>
 
 ---
