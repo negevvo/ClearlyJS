@@ -1,6 +1,6 @@
 # Table of contents
 
-* [README](README.md)
+* [ClearlyJS](README.md)
 
 ## Getting started
 
