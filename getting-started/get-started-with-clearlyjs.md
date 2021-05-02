@@ -1,14 +1,12 @@
 # Get Started with ClearlyJS
 
-## Get Started with ClearlyJS
-
-### What is ClearlyJS?
+## What is ClearlyJS?
 
 ClearlyJS is a simple and open source JavaScript library, made for making small-scale apps in no time - and without learning a new language!  
 ClearlyJS uses the latest JavaScript features \(Such as [JSX](https://reactjs.org/docs/introducing-jsx.html)\), combined with the legacy HTML and Vanilla JS to make the best of both worlds.  
 ClearlyJS contains functions for DOM elements, URLs, cookies, XML elements and more, and even has tools and add-ins to help you build stable and fast apps!
 
-### Make your first ClearlyJS app <a id="firstApp"></a>
+## Make your first ClearlyJS app
 
 ClearlyJS lets you write your page in multiple ways - or to do it in your way!
 
@@ -16,7 +14,7 @@ ClearlyJS lets you write your page in multiple ways - or to do it in your way!
 The ClearlyJS syntax is similar to React - so if you're moving from or to React, It'll be an easy move!
 {% endhint %}
 
-#### 1. Import ClearlyJS to your project <a id="import"></a>
+### 1. Import ClearlyJS to your project
 
 To start using ClearlyJS, open a new HTML page and add this line as the first line of your head tag:
 
@@ -37,12 +35,12 @@ It is recommended to use ClearlyDebug:
 
 That's it! your project is now connected to ClearlyJS!
 
-#### 2. Optional: Set-up Babel and JSX
+### 2. Optional: Set-up Babel and JSX
 
 [JSX](https://reactjs.org/docs/introducing-jsx.html) lets you write HTML code - and use it in React and in ClearlyJS!  
 JSX files need to be compiled by a JavaScript compiler named [Babel](https://babeljs.io/) in order to use them.
 
-**Download NodeJs and npm here**
+\*\*\*\*[**Download NodeJs and npm here**](https://nodejs.org/en/download/)
 
 After downloading, go to your terminal and type:
 
@@ -54,7 +52,7 @@ npm install @babel/cli @babel/core @babel/plugin-transform-react-jsx
 
 That's it!
 
-**Compile a .jsx file**
+#### **Compile a .jsx file**
 
 **On Windows**
 
@@ -62,9 +60,13 @@ You can use an automated tool to start compiling faster:
 
 Download the zip file below, extract it and drag the .bat file to your project's folder and run it. you'll be asked to specify the folder with the jsx files and the output folder. Closing the window will stop the compilation. You can edit the batch file to match your needs.
 
+{% file src="../.gitbook/assets/compile-jsx \(1\).zip" %}
+
 **On any other OS \(including Windows ;\)**
 
 First, extract the zip file below and put the .babelrc file in your project.
+
+{% file src="../.gitbook/assets/babelrc.zip" %}
 
 Open your terminal and type:
 
@@ -78,7 +80,7 @@ npx babel JSX-FILE-OR-FOLDER --watch --out-dir OUTPUT-FOLDER --out-file-extensio
 Closing the terminal window will stop the compilation.
 {% endhint %}
 
-#### 3. Hello World
+### 3. Hello World
 
 We'll now make a simple Hello World app.
 
