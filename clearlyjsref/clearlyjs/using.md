@@ -10,24 +10,22 @@ LABS - may not work as expected
 
 using is the function for importing ClearlyJS add-ins.
 
-### Parameters
+## Parameters
 
 * **toolName:** Name of the tool to import, for example: "debug" or "fast"
 
-### Returns
+## Returns
 
 HTML element of the tool's file
 
-### Possible tool names
+## Possible tool names
 
 * **debug**: ClearlyDebug - a debugger for ClearlyJS
 * **Fast**: ClearlyFast - a tool that makes images load faster without losing quality
 
-### Examples
+## Examples
 
 ```jsx
 clrly.using("debug")
 ```
-
-
 

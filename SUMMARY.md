@@ -1,6 +1,10 @@
 # Table of contents
 
-* [Get Started with ClearlyJS](README.md)
+* [README](README.md)
+
+## Getting started
+
+* [Get Started with ClearlyJS](getting-started/get-started-with-clearlyjs.md)
 
 ## The ClearlyJS Reference <a id="clearlyjsref"></a>
 
@@ -13,8 +17,4 @@
 * [AJAX](clearlyjsref/ajax.md)
 * [XML elements](clearlyjsref/xml-elements.md)
 * [math](clearlyjsref/math.md)
-
-## The ClearlyDebug Reference
-
-## The ClearlyFast Reference
 
