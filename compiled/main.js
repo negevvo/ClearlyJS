@@ -21,13 +21,21 @@ clrly.new("main", null, bg = clrly.new("div", {
 }, "negevvo")), clrly.new("h2", {
   class: "title"
 }, clrly.new("a", {
-  href: "pages/start"
+  href: "https://negevvo.gitbook.io/clearlyjs/getting-started/get-started-with-clearlyjs"
 }, "Get started!"), " | ", clrly.new("a", {
-  href: "#"
-}, "Documentation (soon)"), " | ", clrly.new("a", {
+  href: "https://negevvo.gitbook.io/clearlyjs/"
+}, "Documentation"), " | ", clrly.new("a", {
   href: "https://github.com/negevvo/ClearlyJS",
   target: "_blank"
-}, "Github"))));
+}, "Github")), clrly.new("h2", {
+  class: "title"
+}, "Start in: ", clrly.new("a", {
+  target: "_blank",
+  href: "https://codesandbox.io/s/clearlyjs-template-wrsjv?fontsize=14&hidenavigation=1&module=%2Fcode%2Findex.js&theme=dark"
+}, "CodeSandbox"), " | ", clrly.new("a", {
+  target: "_blank",
+  href: "https://codepen.io/pen/?template=KKajRxM"
+}, "CodePen"))));
 const FEATURES = [`${APP_NAME}`, `Simple`, `Dynamic`, `Light`, `Fast`, `JSX support`, `The new JavaScript`, `Debugging tools`, `Super Fast image loading`, `AJAX requests`, `XML tools`, `DOM tools`, `URL tools`, `Cookies`, `Components`, `Vanilla JS support`, `Mobile compatible`, `Open source`];
 
 for (var i = 0; i < 10; i++) {
