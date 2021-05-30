@@ -9,6 +9,7 @@ var bg, bgTxt;
         <h2 class="title">
             {APP_NAME}
         <br/>a JavaScript library by <a href="https://twitter.com/negevvo" target="_blank">negevvo</a>
+        <br/>(Stable, pre-release 1)
         </h2>
         <h2 class="title"><a href="https://negevvo.gitbook.io/clearlyjs/getting-started/get-started-with-clearlyjs">Get started!</a> | <a href="https://negevvo.gitbook.io/clearlyjs/">Documentation</a> | <a href="https://github.com/negevvo/ClearlyJS" target="_blank">Github</a></h2>
         <h2 class="title">Start in: <a target="_blank" href="https://codesandbox.io/s/clearlyjs-template-wrsjv?fontsize=14&hidenavigation=1&module=%2Fcode%2Findex.js&theme=dark">CodeSandbox</a> | <a target="_blank" href="https://codepen.io/pen/?template=KKajRxM">CodePen</a></h2>

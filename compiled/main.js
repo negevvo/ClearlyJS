@@ -18,7 +18,7 @@ clrly.new("main", null, bg = clrly.new("div", {
 }, APP_NAME, clrly.new("br", null), "a JavaScript library by ", clrly.new("a", {
   href: "https://twitter.com/negevvo",
   target: "_blank"
-}, "negevvo")), clrly.new("h2", {
+}, "negevvo"), clrly.new("br", null), "(Stable, pre-release 1)"), clrly.new("h2", {
   class: "title"
 }, clrly.new("a", {
   href: "https://negevvo.gitbook.io/clearlyjs/getting-started/get-started-with-clearlyjs"
