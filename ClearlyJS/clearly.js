@@ -226,11 +226,7 @@ class clrly {
 	 * @returns              the page's title
 	 */
 	static title(title){
-		Array.from(this.tag("title")).forEach(function(element){
-			element.remove();
-		});
-		this.new("title", {parent: document.head, innerHTML: title});
-		return this.tag("title")[0].innerHTML;
+		return document.title = title;
 	}
 
 	/**
@@ -547,5 +543,28 @@ class clrly {
 	 */
 	static randomInt(min, max){
 		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+
+	// **************************** FILES ****************************
+	/**
+	 * Generates a link to the content as a blob
+	 * @param {*} content content to store as blob
+	 * @param {*} type MIME type (default: "text/html")
+	 * @returns URL of the blob
+	 */
+	static toFile(content, type = "text/html"){
+		return URL.createObjectURL(new Blob([content], {type : type}));
+	}
+
+	/**
+	 * Downloads a file from a specified URL
+	 * @param {*} URL file URL
+	 * @param {*} fileName name of the downloaded file (For example: MyFile.txt)
+	 */
+	static download(URL, fileName){
+		var a = new("a", {href: URL, download: fileName});
+		a.click();
+		a.remove();
 	}
 }
