@@ -563,7 +563,7 @@ class clrly {
 	 * @param {*} fileName name of the downloaded file (For example: MyFile.txt)
 	 */
 	static download(URL, fileName){
-		var a = new("a", {href: URL, download: fileName});
+		var a = this.new("a", {href: URL, download: fileName});
 		a.click();
 		a.remove();
 	}
