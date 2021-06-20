@@ -550,7 +550,7 @@ class clrly {
 	/**
 	 * Generates a link to the content as a blob
 	 * @param {*} content content to store as blob
-	 * @param {*} type MIME type (default: "text/html")
+	 * @param {string} type MIME type (default: "text/html")
 	 * @returns URL of the blob
 	 */
 	static toFile(content, type = "text/html"){
@@ -559,8 +559,8 @@ class clrly {
 
 	/**
 	 * Downloads a file from a specified URL
-	 * @param {*} URL file URL
-	 * @param {*} fileName name of the downloaded file (For example: MyFile.txt)
+	 * @param {string} URL file URL
+	 * @param {string} fileName name of the downloaded file (For example: MyFile.txt)
 	 */
 	static download(URL, fileName){
 		var a = this.new("a", {href: URL, download: fileName});
