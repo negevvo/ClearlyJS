@@ -568,3 +568,5 @@ class clrly {
 		a.remove();
 	}
 }
+
+export default clrly;
