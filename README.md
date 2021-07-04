@@ -8,5 +8,10 @@
 
 Make it simple! A JavaScript library made for making small-scale apps in no time - and without learning a new language!
 
-**Please note that:** 1. this is not the final version and things can be changed. 2. I won't allow any changes to this repo's code \(or copying the code from any file in any branch of this repo\) until I'll release a final version \(will be called 1.0 or something like it, and I'll let you know\). 3. You **can** use the library now \(read 1 again!\) - put the following in your page's head: `<script src="https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearly.js"></script>` and write your code with defer (you can also import ClearlyJS from your js file: `import clrly from 'https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearly.js'`). A real documentation is coming soon, the completed parts are available [here](https://negevvo.github.io/ClearlyJS/).
+**Please note that:**
+1. this is not the final version and things can be changed.
+2. I won't allow any changes to this repo's code \(or copying the code from any file in any branch of this repo\) until I'll release a final version \(will be called 1.0 or something, and I'll let you know\).
+3. You **can** use the library now \(read 1 again!\) - put the following in your page's head: `<script src="https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearly.js"></script>` and write your code with defer.
+  - You can also import ClearlyJS from your js file: `import clrly from 'https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearly.js'`).
+4. A real documentation is coming soon, the completed parts are available [here](https://negevvo.gitbook.io/clearlyjs/).
 
