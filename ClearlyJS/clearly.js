@@ -46,7 +46,7 @@ class clrly {
 		}
 		for (var i = 2; i < arguments.length; i++) {
             var child = arguments[i];
-            newElement.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child);
+            newElement.appendChild(child ? child.nodeType == null ? document.createTextNode(child.toString()) : child : "");
         }
 		/**
 		 * Edits the element's attributes
