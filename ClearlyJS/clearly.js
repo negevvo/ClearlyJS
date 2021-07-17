@@ -1,10 +1,10 @@
 /**
  * ClearlyJs
  * @author Negev Volokita (negevvo)
- * @version 1
- * NOTE: Since private class members is new and not fully supported in JavaScript, they'll be public and start with _, but won't be documented
+ * @version pre2-dev (see @todo)
+ * NOTE: Items starting with _ or # won't be documented
  */
-class clrly {
+export default class clrly{
 	// **************************** CLEARLYJS ****************************
 	/**
 	 * Imports a clearlyJs tool (LABS - may not work as expected)
@@ -12,41 +12,62 @@ class clrly {
 	 * @returns HTML element of the tool's file
 	 */
 	static using(toolName){
-		var url = "https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/clearly.js";
-		url = url.replace(url.substring(url.lastIndexOf("/")), "");
+		var url = "https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/";
 		switch(toolName.toLowerCase()){
 			case "debug":
-				url += "/clearlyDebug.js";
+				url += "clearlyDebug.js";
 				break;
 			case "fast":
-				url += "/clearlyFast.js";
+				url += "clearlyFast.js";
 				break;
 			default:
 				console.error(new Error(`There is no ClearlyJs tool named ${toolName}`));
 		}
 		return this.import(url, "js", {defer: true});
 	}
-	// **************************** HTML ELEMENTS ****************************
+	// **************************** HTML ELEMENTS AND COMPONENTS ****************************
+
 	/**
-	 * makes a new HTML element with a type, attributes and children
+	 * @todo DOCUMENT THIS!!!!!!!!!!!
+	 */
+	static get component() {
+		return class component {
+		  constructor(attributes) {
+			if (this.constructor === clrly.component) {
+			  throw new Error(
+				"clrly.component is not an initializeable object, make your own constructor"
+			  );
+			}
+		  }
+		  get element() {
+			throw new Error("Please make a getter for the element");
+		  }
+		  get style() {
+			return ``;
+		  }
+		};
+	}
+
+	/**
+	 * makes a new ClearlyHTML element with a type, attributes and children
 	 * @param {string} type   Type of the element
 	 * @param {*} attributes  (optional) list of the element's attributes: {id: "hello", class: "someElement", parent: document.body, innerHTML: "Hello World"} etc
 	 * @param {HTML elements} children    (optional) children of the element
 	 * @returns an HTML element
 	 */
     static new(type, attributes, ...children){
-		var newElement;
-		if(attributes == null){
-			attributes = "";
+		if(type == "clrly"){
+			return this._newElementFromComponent(attributes);
 		}
-		if (typeof(attributes) != "undefined"){
-			newElement = this._newElementWithAttributes(type, attributes);
-		}else{
-			newElement = this._newElement(type);
+		var newElement = this._newElement(type);
+		if (attributes){
+			this.editAttributes(newElement, attributes);
 		}
 		for (var i = 2; i < arguments.length; i++) {
             var child = arguments[i];
-            newElement.appendChild(child ? child.nodeType == null ? document.createTextNode(child.toString()) : child : "");
+			try{
+            	newElement.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child);
+			}catch(e){}
         }
 		/**
 		 * Edits the element's attributes
@@ -56,23 +77,7 @@ class clrly {
 		newElement.editAttributes = function(attributes){
 			return clrly.editAttributes(newElement, attributes);
 		}
-		return newElement;
-	}
-	static _newElementWithAttributes(type, attributes){
-		var newElement = document.createElement(type);
-		for(var attribute in attributes){
-			if(attribute != "parent" && attribute != "innerHTML"){
-				newElement.setAttribute(attribute, attributes[attribute]);
-			}
-		}
-		var parent = document.body;
-		if(attributes["parent"]){
-			parent = attributes["parent"];
-		}
-		if(attributes["innerHTML"]){
-			newElement.innerHTML = attributes["innerHTML"];
-		}
-		parent.appendChild(newElement);
+		newElement.isClearlyHTML = true;
 		return newElement;
 	}
 	static _newElement(type){
@@ -80,24 +85,43 @@ class clrly {
 		document.body.appendChild(newElement);
 		return newElement;
 	}
+	static _newElementFromComponent(attributes){
+		var objectClass = attributes.from;
+      	if (!objectClass) {
+        	throw new Error("Cannot find the component");
+      	}
+      	var obj = new objectClass(attributes);
+      	var el = obj.element;
+      	el.style = obj.style;
+      	el.object = obj;
+      	return el;
+	}
 
 	/**
-	 * Edits the given element's attributes
-	 * @param {*} element HTML element
+	 * Edits the given element's attributes (or all elements in a certain array)
+	 * @param {*} element HTML element or an array of elements
 	 * @param {*} attributes attributes to change
-	 * @returns the element
+	 * @returns the element (or the array)
 	 */
 	static editAttributes(element, attributes){
-		for(var attribute in attributes){
-			if(attribute != "parent" && attribute != "innerHTML"){
-				element.setAttribute(attribute, attributes[attribute]);
+		if(Array.isArray(element)){
+			for(var el of element){
+				this.editAttributes(el, attributes);
 			}
-			if(attributes["parent"]){
-				var parent = attributes["parent"];
-				parent.appendChild(element);
-			}
-			if(attributes["innerHTML"]){
-				element.innerHTML = attributes["innerHTML"];
+			return element;
+		}
+		if(attributes){
+			for(var attribute in attributes){
+				if(attribute != "parent" && attribute != "innerHTML"){
+					element.setAttribute(attribute, attributes[attribute]);
+				}
+				if(attributes["parent"]){
+					var parent = attributes["parent"];
+					parent.appendChild(element);
+				}
+				if(attributes["innerHTML"]){
+					element.innerHTML = attributes["innerHTML"];
+				}
 			}
 		}
 		return element;
@@ -109,92 +133,62 @@ class clrly {
 	 * @param {*} parent    (optional) parent element for the code to be inserted in
 	 * @returns             the HTML code
 	 */
-	static add(HTML, parent){
-		if(typeof(parent) == "undefined"){
-			parent = document.documentElement;
-		}
-		parent.innerHTML += HTML;
-		return HTML;
+	static add(HTML, parent = document.documentElement){
+		try{
+			parent.innerHTML += HTML;
+			return HTML;
+		}catch(e){}
 	}
 
 	/**
 	 * Get element by id
 	 * @param {string} id id of the element
-	 * @returns           DOM element with the specified id, or null
+	 * @returns           DOM element with the specified id, or undefined
 	 * @see Xid
 	 */
 	static id(id){
-		try{
 		return this.Xid(document, id);
-		}catch(e){
-			return null;
-		}
 	}
 
 	/**
 	 * Get elements by class name
 	 * @param {string} className class name of the elements
-	 * @returns                  HTML elements collection which includes all elements with the specified class name, or null
+	 * @returns                  HTML elements collection which includes all elements with the specified class name, or an empty array
 	 * @see Xclass
 	*/
 	static class(className){
-		try{
-			return this.Xclass(document, className);
-		}catch(e){
-			return null;
-		}
+		return this.Xclass(document, className);
 	}
 
 	/**
 	 * Get elements by tag name
 	 * @param {string} tagName tag name of the elements
-	 * @returns                HTML elements collection which includes all elements with the specified tag name, or null
+	 * @returns                HTML elements collection which includes all elements with the specified tag name, or an empty array
 	 * @see Xtag
 	 */
 	static tag(tagName){
-		try{
-			return this.Xtag(document, tagName);
-		}catch(e){
-			return null;
-		}
+		return this.Xtag(document, tagName);
 	}
 
 	/**
 	 * Get elements by Query selector (CSS selector)
 	 * @param {string} selector Query selector
-	 * @returns                HTML elements collection which includes all elements with the specified Query selector, or null
+	 * @returns                HTML elements collection which includes all elements with the specified Query selector, or an empty array
 	 * @see Xselect
 	 */
 	 static select(selector){
-		try{
-			return this.Xselect(document, selector);
-		}catch(e){
-			return null;
-		}
+		return this.Xselect(document, selector);
 	}
 
 	/**
 	 * Get elements by attribute
 	 * @param {string} attribute attribute name of the elements
 	 * @param {string} value     value of the attribute
-	 * @returns                  HTML elements collection which includes all elements with the specified attribute and attribute value, or null
+	 * @returns                  HTML elements collection which includes all elements with the specified attribute and attribute value, or an empty array
 	 * @see Xattribute
 	 */
 	 static attribute(attribute, value){
-		try{
-			return this.Xattribute(document, attribute, value);
-		}catch(e){
-			return null;
-		}
-	}
-
-	/**
-	 * Add CSS style
-	 * @param {string} style style to be added
-	 * @returns              the style element in the HTML
-	 */
-	static style(style){
-		return this.new("style", {parent: document.head, innerHTML: style});
+		return this.Xattribute(document, attribute, value);
 	}
 
 	/**
@@ -290,6 +284,64 @@ class clrly {
 	}
 
 
+	// **************************** STYLES ****************************
+	/**
+	 * Add CSS style
+	 * @param {string} style style to be added
+	 * @returns              the style element in the HTML
+	 */
+	 static style(style){
+		return this.new("style", {parent: document.head, innerHTML: style});
+	}
+
+	/**
+	 * Converts HEX colors to RGB
+	 * @param {String} hex HEX color to covert (for example: #cc99ff)
+	 * @returns an object contains the r (red), g (green) and b (blue) values of the HEX color
+	 */
+	static toRGB(hex) {
+		hex = hex.length == 3 ? hex.replace(/(.)/g, '$1$1') : hex;
+		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		return result ? {
+			r: parseInt(result[1], 16),
+			g: parseInt(result[2], 16),
+			b: parseInt(result[3], 16)
+		}: "";
+	}
+
+	/**
+	 * Converts RGB colors to HEX
+	 * @param {*} rgb RGB color to convert as an object (for example: {r: 204, g: 153, b: 255})
+	 * @returns the color as hex
+	 */
+	static toHEX(rgb) {
+		function conv(value){
+		  value = value.toString(16);
+		  return value.length == 1 ? "0" + value : value;
+		}
+		return "#" +
+		conv(rgb.r) +
+		conv(rgb.g) +
+		conv(rgb.b);
+	}
+
+	/**
+	 * Changes the brightness of a HEX color
+	 * @param {String} hex HEX color to change the brightness of
+	 * @param {number} level a number between -100 (darkest) to 100 (brightest), 0 is the color itself
+	 * @returns 
+	 */
+	static colorBrightness(hex, level) {
+		var rgb = this.toRGB(hex);
+		level = (level + 100) / 100;
+		return this.toHEX({
+			r: Math.min(255,Math.floor(rgb.r*level)),
+			g: Math.min(255,Math.floor(rgb.g*level)),
+			b: Math.min(255,Math.floor(rgb.b*level))
+		});
+	}
+
+
 	// **************************** URL ****************************
 	/**
 	 * Current URL
@@ -297,56 +349,64 @@ class clrly {
 	static get url(){
 		return window.location.href;
 	}
+
 	/**
 	 * The same URL, but without the search and hash elements
 	 */
 	static get pageUrl(){
 		return this.url.replace(window.location.search, "").replace(window.location.hash, "");
 	}
+
 	/**
 	 * URL hash (#)
 	 */
 	static get hash(){
 		return decodeURI(window.location.hash.substring(1));
 	}
+
 	/**
 	 * URL search (?) (AKA QueryString)
 	 * to get a value, use clrly.search.get('parameter')
 	 */
 	static get search(){
-		return new URL(location.href).searchParams;
+		return new URL(window.location.href).searchParams;
 	}
+
 	/**
 	 * Reloads the page
 	 */
 	static reload(){
-		location.reload();
+		window.location.reload();
 	}
+
 	/**
 	 * Redirects to another URL
 	 * @param {string} URL URL to be redirected to
 	 */
 	static redirect(URL){
-		location.replace(URL);
+		window.location.replace(URL);
 	}
+
 	/**
 	 * Go to another url
 	 * @param {string} URL        URL to go to
 	 * @param {boolean} newWindow (optional) open in a new window
 	 */
 	static go(URL, newWindow){
-		if(typeof(newWindow) != "undefined" && newWindow){
+		if(newWindow){
 			window.open(URL);
 		}else{
 			window.location.href = URL;
 		}
 	}
+
 	/**
 	 * Opens a new window with the same URL
 	 */
 	static duplicate(){
 		this.go(this.url, true);
 	}
+
 	/**
 	 * Goes to the same URL, but without the search and hash elements
 	 * @see pageUrl
@@ -360,13 +420,14 @@ class clrly {
 	static get _MONTHS(){
 		return ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 	}
+
 	/**
 	 * Makes a new cookie
 	 * @param {string} name    name of the cookie
 	 * @param {string} content content of the cookie
-	 * @param {int} day        (optional) Expiration day
-	 * @param {int} month      (optional) Expiration month
-	 * @param {int} year       (optional) Expiration year
+	 * @param {number} day        (optional) Expiration day
+	 * @param {number} month      (optional) Expiration month
+	 * @param {number} year       (optional) Expiration year
 	 * @returns content
 	 */
 	static cookie(name, content, day, month, year){
@@ -378,6 +439,7 @@ class clrly {
 		document.cookie = name+'='+content+'; expires=' + date + ' 23:59:59 UTC; path=/';
 		return content;
 	}
+
 	/**
 	 * Deletes a cookie
 	 * @param {string} cookieName cookie name to be deleted
@@ -385,6 +447,7 @@ class clrly {
 	static deleteCookie(cookieName){
 		document.cookie = cookieName+'=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
 	}
+
 	/**
 	 * Gets the content of the cookie
 	 * @param {string} cookieName name of the cookie
@@ -417,6 +480,7 @@ class clrly {
 	static ajax(url, params, callback){
 		fetch(url, params).then(response => response.text()).then(response => callback(response));
 	}
+
 	/**
 	 * Starts a new AJAX request for a JSON file
 	 * @param {string} url JSON file URL
@@ -426,6 +490,7 @@ class clrly {
 	static json(url, params, callback){
 		fetch(url, params).then(response => response.json()).then(response => callback(response));
 	}
+
 	/**
 	 * Opens an xml file
 	 * @param {sttring} URL URL of the XML file
@@ -448,13 +513,13 @@ class clrly {
 	 * Get XML element by id
 	 * @param {*} xml XML element @see getXML
 	 * @param {string} id id of the XML element
-	 * @returns           XML element with the specified id, or null
+	 * @returns           XML element with the specified id, or undefined
 	 */
 	 static Xid(xml, id){
 		try{
 		return xml.getElementById(id);
 		}catch(e){
-			return null;
+			return undefined;
 		}
 	}
 
@@ -462,13 +527,13 @@ class clrly {
 	 * Get XML elements by class name
 	 * @param {*} xml XML element @see getXML
 	 * @param {string} className class name of the XML elements
-	 * @returns                  all elements with the specified class name, or null
+	 * @returns                  all elements with the specified class name, or an empty array
 	 */
 	static Xclass(xml, className){
 		try{
 			return xml.getElementsByClassName(className);
 		}catch(e){
-			return null;
+			return [];
 		}
 	}
 
@@ -476,13 +541,13 @@ class clrly {
 	 * Get XML elements by tag name
 	 * @param {*} xml XML element @see getXML
 	 * @param {string} tagName tag name of the XML elements
-	 * @returns                all XML elements with the specified tag name, or null
+	 * @returns                all XML elements with the specified tag name, or an empty array
 	 */
 	static Xtag(xml, tagName){
 		try{
 			return xml.getElementsByTagName(tagName);
 		}catch(e){
-			return null;
+			return [];
 		}
 	}
 
@@ -490,13 +555,13 @@ class clrly {
 	 * Get XML elements by Query selector (CSS selector)
 	 * @param {*} xml XML element @see getXML
 	 * @param {string} selector Query selector
-	 * @returns                HTML elements collection which includes all elements with the specified Query selector, or null
+	 * @returns                HTML elements collection which includes all elements with the specified Query selector, or an empty array
 	 */
 	 static Xselect(xml, selector){
 		try{
 			return xml.querySelectorAll(selector);
 		}catch(e){
-			return null;
+			return [];
 		}
 	}
 
@@ -505,13 +570,13 @@ class clrly {
 	 * @param {*} xml XML element @see getXML
 	 * @param {string} attribute attribute name of the XML elements
 	 * @param {string} value     value of the attribute
-	 * @returns                  all XML elements with the specified attribute and attribute value, or null
+	 * @returns                  all XML elements with the specified attribute and attribute value, or an empty array
 	 */
 	 static Xattribute(xml, attribute, value){
 		try{
 			return this.Xselect(xml, '['+attribute+'="'+value+'"]');
 		}catch(e){
-			return null;
+			return [];
 		}
 	}
 
@@ -528,17 +593,18 @@ class clrly {
 	// **************************** MATH ****************************
 	/**
 	 * Get a random float between two values (min < x < max when x is the random number)
-	 * @param {int} min the minimal number
-	 * @param {int} max the maximal number
+	 * @param {number} min the minimal number
+	 * @param {number} max the maximal number
 	 * @returns a random number between the two values
 	 */
 	 static random(min, max){
 		return Math.random() * (max - min) + min;
 	}
+	
 	/**
 	 * Get a random integer between two values (min ≤ x ≤ max when x is the random number)
-	 * @param {int} min the minimal number
-	 * @param {int} max the maximal number
+	 * @param {number} min the minimal number
+	 * @param {number} max the maximal number
 	 * @returns a random number between the two values
 	 */
 	static randomInt(min, max){
@@ -568,5 +634,3 @@ class clrly {
 		a.remove();
 	}
 }
-
-// export default clrly; // Will be enabled soon
