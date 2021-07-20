@@ -78,13 +78,14 @@ export default class clrlyDebug{
 				color: #003399;
 			}
 		`);
+		var debug = this;
 		var btn = clrly.new("button", {id: "clearlyErrorButton", innerHTML: "!"});
 		btn.onclick = function(){
-			this.showErrors();
+			debug.showErrors();
 		}
 		var errorsBack = clrly.new("div", {id: "clearlyErrorsBack"});
 		errorsBack.onclick = function(){
-			this.hideErrors();
+			debug.hideErrors();
 		}
 		var div = clrly.new("div", {id: "clearlyErrors"});
 		window.onerror = function(message = "", url = "", line = "", column = "", error = "") {
