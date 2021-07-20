@@ -1,4 +1,4 @@
-import clrly from "./clearly.js"
+import clrly from "https://raw.githubusercontent.com/negevvo/ClearlyJS/pre2-dev/ClearlyJS/clearly.js"
 /**
  * ClearlyDebug - a debugging tool for ClearlyJs
  * @author Negev Volokita (negevvo)
