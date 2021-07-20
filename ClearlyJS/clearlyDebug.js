@@ -78,8 +78,14 @@ export default class clrlyDebug{
 				color: #003399;
 			}
 		`);
-		var btn = clrly.new("button", {id: "clearlyErrorButton", innerHTML: "!", onclick: "clrlyDebug.showErrors()"});
-		clrly.new("div", {id: "clearlyErrorsBack", onclick: "clrlyDebug.hideErrors()"});
+		var btn = clrly.new("button", {id: "clearlyErrorButton", innerHTML: "!"});
+		btn.onclick = function(){
+			this.showErrors();
+		}
+		var errorsBack = clrly.new("div", {id: "clearlyErrorsBack"});
+		errorsBack.onclick = function(){
+			this.hideErrors();
+		}
 		var div = clrly.new("div", {id: "clearlyErrors"});
 		window.onerror = function(message = "", url = "", line = "", column = "", error = "") {
 			var inFileTxt = url != "" ? "<br/>In file: " : "";
