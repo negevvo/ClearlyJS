@@ -80,27 +80,12 @@ export default class clrlyDebug{
 		var btn = clrly.new("button", {id: "clearlyErrorButton", innerHTML: "!", onclick: "clrlyDebug.showErrors()"});
 		clrly.new("div", {id: "clearlyErrorsBack", onclick: "clrlyDebug.hideErrors()"});
 		var div = clrly.new("div", {id: "clearlyErrors"});
-		window.onerror = function(message, url, line, column, error) {
-			var inFileTxt = "<br/>In file: ";
-			var lineTxt = "<br/>Line: ";
-			var columnTxt = ", Column: ";
+		window.onerror = function(message = "", url = "", line = "", column = "", error = "") {
+			var inFileTxt = url != "" ? "<br/>In file: " : "";
+			var lineTxt = line != "" ? "<br/>Line: " : "";
+			var columnTxt = column != "" ? ", Column: " : "";
 			var errorTxt = "<br/>";
-			switch(undefined || null || ""){
-				case message:
-					message = "";
-				case url:
-					url = "";
-					inFileTxt = "";
-				case line:
-					line = "";
-					lineTxt = "";
-				case column:
-					column = "";
-					columnTxt = "";
-				case error:
-					error = "";
-			}
-			clrly.new("h1", {parent: div, innerHTML: `${message}${inFileTxt}${url}${lineTxt}${line}${columnTxt}${column}${errorTxt}${error}`});
+			clrly.new("h1", {parent: div, innerHTML: `${message.replaceAll("\n", "<br/>")}${inFileTxt}${url}${lineTxt}${line}${columnTxt}${column}${errorTxt}${error}`});
 			clrly.new("a", {parent: div, innerHTML: "Search error on Google", href: `https://www.google.com/search?q=${message}`, target: "_blank"});
 			clrly.new("br", {parent: div});
 			clrly.new("a", {parent: div, innerHTML: "Search error on Bing", href: `https://www.bing.com/search?q=${message}`, target: "_blank"});
