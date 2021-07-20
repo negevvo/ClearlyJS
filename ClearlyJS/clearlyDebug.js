@@ -1,3 +1,4 @@
+import clrly from "./clearly.js"
 /**
  * ClearlyDebug - a debugging tool for ClearlyJs
  * @author Negev Volokita (negevvo)
