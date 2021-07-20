@@ -5,26 +5,6 @@
  * NOTE: Items starting with _ or # won't be documented
  */
 export default class clrly{
-	// **************************** CLEARLYJS ****************************
-	/**
-	 * Imports a clearlyJs tool (LABS - may not work as expected)
-	 * @param {string} toolName Name of the tool to import, for example: "debug"
-	 * @returns HTML element of the tool's file
-	 */
-	static using(toolName){
-		var url = "https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@main/ClearlyJS/";
-		switch(toolName.toLowerCase()){
-			case "debug":
-				url += "clearlyDebug.js";
-				break;
-			case "fast":
-				url += "clearlyFast.js";
-				break;
-			default:
-				console.error(new Error(`There is no ClearlyJs tool named ${toolName}`));
-		}
-		return this.import(url, "js", {defer: true});
-	}
 	// **************************** HTML ELEMENTS AND COMPONENTS ****************************
 
 	/**
