@@ -90,12 +90,20 @@ export default class clrly{
 		}
 		if(attributes){
 			for(var attribute in attributes){
-				if(attribute != "parent"){
-					element[attribute] = attributes[attribute];
+				if(attribute != "parent" && attribute != "innerHTML"){
+					var type = typeof attributes[attribute];
+					if(type == "function" || type == "object"){
+						element[attribute] = attributes[attribute];
+					}else{
+						element.setAttribute(attribute, attributes[attribute]);
+					}
 				}
 				if(attributes["parent"]){
 					var parent = attributes["parent"];
 					parent.appendChild(element);
+				}
+				if(attributes["innerHTML"]){
+					element.innerHTML = attributes["innerHTML"];
 				}
 			}
 		}
