@@ -6,7 +6,6 @@
  */
 export default class clrly{
 	// **************************** HTML ELEMENTS AND COMPONENTS ****************************
-
 	/**
 	 * @todo DOCUMENT THIS!!!!!!!!!!!
 	 */
@@ -43,8 +42,7 @@ export default class clrly{
 		if (attributes){
 			this.editAttributes(newElement, attributes);
 		}
-		for (var i = 2; i < arguments.length; i++) {
-            var child = arguments[i];
+		for (var child of children) {
 			try{
             	newElement.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child);
 			}catch(e){}
@@ -92,15 +90,12 @@ export default class clrly{
 		}
 		if(attributes){
 			for(var attribute in attributes){
-				if(attribute != "parent" && attribute != "innerHTML"){
-					element.setAttribute(attribute, attributes[attribute]);
+				if(attribute != "parent"){
+					element[attribute] = attributes[attribute];
 				}
 				if(attributes["parent"]){
 					var parent = attributes["parent"];
 					parent.appendChild(element);
-				}
-				if(attributes["innerHTML"]){
-					element.innerHTML = attributes["innerHTML"];
 				}
 			}
 		}
@@ -239,7 +234,17 @@ export default class clrly{
 	}
 
 	/**
-	 * Initialize the app - set a title, icon, theme color, direction and mobile compatibility
+	 * Makes the app more usable to mobile devices
+	 * @param {*} value true (default) - only mobile friendly, "app" - app mode (not user scalable)
+	 * @returns 
+	 */
+	 static mobileFriendly(value = true){
+		var scalable = value == "app" ? `, user-scalable="no"` : "";
+		return this.new("meta", {parent: document.head, name: "viewport", content: `width=device-width, initial-scale=1.0${scalable}`});
+	}
+
+	/**
+	 * Initialize the app - set a title, icon, theme color, direction and mobile friendliness
 	 * @param {*} options {title: "title of the app", icon: "icon.png", theme: "#99ff99", dir: "RTL", mobile: true, using: "debug"}
 	 */
 	static initialize(options){
@@ -258,8 +263,8 @@ export default class clrly{
 		if(options["using"]){
 			this.using(options["using"]);
 		}
-		if(options["mobile"] && options["mobile"] == true){
-		this.new("meta", {parent: document.head, name: "viewport", content: "width=device-width, initial-scale=1.0"});
+		if(options["mobile"]){
+			this.mobileFriendly(options["mobile"]);
 		}
 	}
 
