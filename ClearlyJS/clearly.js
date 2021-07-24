@@ -93,10 +93,11 @@ export default class clrly{
 			return element;
 		}
 		if(attributes){
+			var isComponent = element.isClearlyComponent;
 			for(var attribute in attributes){
 				if(attribute != "parent" && attribute != "innerHTML"){
 					var type = typeof attributes[attribute];
-					if(type == "function" || type == "object"){
+					if(type == "function" || type == "object" || isComponent){
 						element[attribute] = attributes[attribute];
 					}else{
 						element.setAttribute(attribute, attributes[attribute]);
@@ -248,36 +249,36 @@ export default class clrly{
 	/**
 	 * Makes the app more usable to mobile devices
 	 * @param {*} value true (default) - only mobile friendly, "app" - app mode (not user scalable)
-	 * @returns 
+	 * @returns the viewport HTML element
 	 */
 	 static mobileFriendly(value = true){
-		var scalable = value == "app" ? `, user-scalable="no"` : "";
+		var scalable = (value == "app" ? `, user-scalable="no"` : "");
 		return this.new("meta", {parent: document.head, name: "viewport", content: `width=device-width, initial-scale=1.0${scalable}`});
 	}
 
 	/**
 	 * Initialize the app - set a title, icon, theme color, direction and mobile friendliness
-	 * @param {*} options {title: "title of the app", icon: "icon.png", theme: "#99ff99", dir: "RTL", mobile: true, using: "debug"}
+	 * @param {*} options {title: "title of the app", icon: "icon.png", theme: "#99ff99", dir: "RTL", mobile: true}
+	 * @returns an array of results from the requested options
 	 */
 	static initialize(options){
+		var result = [];
 		if(options["title"]){
-			this.title(options["title"]);
+			result.push(this.title(options["title"]));
 		}
 		if(options["icon"]){
-			this.icon(options["icon"]);
+			result.push(this.icon(options["icon"]));
 		}
 		if(options["theme"]){
-			this.theme(options["theme"]);
+			result.push(this.theme(options["theme"]));
 		}
 		if(options["dir"]){
-			this.dir(options["dir"]);
-		}
-		if(options["using"]){
-			this.using(options["using"]);
+			result.push(this.dir(options["dir"]));
 		}
 		if(options["mobile"]){
-			this.mobileFriendly(options["mobile"]);
+			result.push(this.mobileFriendly(options["mobile"]));
 		}
+		return result;
 	}
 
 
