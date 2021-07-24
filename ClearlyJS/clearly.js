@@ -252,7 +252,7 @@ export default class clrly{
 	 * @returns the viewport HTML element
 	 */
 	 static mobileFriendly(value = true){
-		var scalable = (value == "app" ? `, user-scalable="no"` : "");
+		var scalable = (value == "app" ? ", user-scalable=no" : "");
 		return this.new("meta", {parent: document.head, name: "viewport", content: `width=device-width, initial-scale=1.0${scalable}`});
 	}
 
