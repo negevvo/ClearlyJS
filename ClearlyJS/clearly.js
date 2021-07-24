@@ -44,6 +44,9 @@ export default class clrly{
 		}
 		for (var child of children) {
 			try{
+				if(child.isClearlyComponent){
+					child = child.HTML;
+				}
             	newElement.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child);
 			}catch(e){}
         }
@@ -72,6 +75,7 @@ export default class clrly{
       	var el = obj.element;
       	el.style = obj.style;
 		obj.HTML = el;
+		obj.isClearlyComponent = true;
       	return obj;
 	}
 
