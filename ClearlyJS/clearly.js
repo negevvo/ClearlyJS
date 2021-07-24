@@ -71,8 +71,8 @@ export default class clrly{
       	var obj = new objectClass(attributes);
       	var el = obj.element;
       	el.style = obj.style;
-      	el.object = obj;
-      	return el;
+		obj.HTML = el;
+      	return obj;
 	}
 
 	/**
