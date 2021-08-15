@@ -184,9 +184,10 @@ export default class clrly{
 	 * @param {string} link  link to import
 	 * @param {string} type  css / js
 	 * @param {*} attributes {defer: true} etc...
+	 * @param {function} callback a function to be called after resource loaded
 	 * @returns				 HTML element of the imported file
 	 */
-	static import(link, type, attributes){
+	static import(link, type, attributes, callback){
 		var element = null;
 		switch(type.toLowerCase()){
 			case "css":
@@ -195,6 +196,9 @@ export default class clrly{
 			case "js":
 				element = this.new("script", {parent: document.head, src: link});
 				break;
+		}
+		if(callback){
+			element.onload = callback;
 		}
 		for(var attribute in attributes){
 			element.setAttribute(attribute, attributes[attribute]);
