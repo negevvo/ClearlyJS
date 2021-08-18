@@ -180,7 +180,7 @@ export default class clrly{
 	}
 
 	/**
-	 * Import style / script
+	 * Import style / script (css and js files only)
 	 * @param {string} toImport  resources to import (as an array of strings or a single string)
 	 * @param {*} attributes {defer: true, type: "module"} etc...
 	 * @param {function} callback a function to be called after all resources loaded
@@ -193,12 +193,10 @@ export default class clrly{
 		var count = 0;
 		for(var link of toImport){
 			var element;
-			if(link.includes(".js")){
-				element = this.new("script", {parent: document.head, src: link});
-			}else if(link.includes(".css")){
+			if(link.includes(".css")){
 				element = this.new("link", {parent: document.head, href: link, rel: "stylesheet"});
 			}else{
-				throw new Error("Only css and js files are supported");
+				element = this.new("script", {parent: document.head, src: link});
 			}
 			for(var attribute in attributes){
 				element.setAttribute(attribute, attributes[attribute]);
