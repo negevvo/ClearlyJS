@@ -181,29 +181,38 @@ export default class clrly{
 
 	/**
 	 * Import style / script
-	 * @param {string} link  link to import
-	 * @param {string} type  css / js
-	 * @param {*} attributes {defer: true} etc...
-	 * @param {function} callback a function to be called after resource loaded
-	 * @returns				 HTML element of the imported file
+	 * @param {string} toImport  resources to import (as an array of strings or a single string)
+	 * @param {*} attributes {defer: true, type: "module"} etc...
+	 * @param {function} callback a function to be called after all resources loaded
+	 * @returns				 An array with all imported resources
 	 */
-	static import(link, type, attributes, callback){
-		var element = null;
-		switch(type.toLowerCase()){
-			case "css":
-				element = this.new("link", {parent: document.head, href: link, rel: "stylesheet"});
-				break;
-			case "js":
+	static import(toImport, attributes, callback){
+		if(!Array.isArray(toImport)){
+			toImport = [toImport];
+		}
+		var count = 0;
+		for(var link of toImport){
+			var element;
+			if(link.includes(".js")){
 				element = this.new("script", {parent: document.head, src: link});
-				break;
+			}else if(link.includes(".css")){
+				element = this.new("link", {parent: document.head, href: link, rel: "stylesheet"});
+			}else{
+				throw new Error("Only css and js files are supported");
+			}
+			for(var attribute in attributes){
+				element.setAttribute(attribute, attributes[attribute]);
+			}
+			element.onload = load;
 		}
-		if(callback){
-			element.onload = callback;
+		function load(){
+			if(++count === toImport.length){
+				if(callback){
+					callback();
+				}
+			}
 		}
-		for(var attribute in attributes){
-			element.setAttribute(attribute, attributes[attribute]);
-		}
-		return element;
+		return toImport;
 	}
 
 	/**
@@ -213,6 +222,45 @@ export default class clrly{
 	 */
 	static title(title){
 		return document.title = title;
+	}
+
+	/**
+	 * Set the OG (Open Graph) title
+	 * @param {string} title the new title
+	 * @returns            the page's OG title
+	 */
+	 static ogTitle(title){
+		Array.from(this.attribute("property", "og:title")).forEach(function(element){
+			element.remove();
+		});
+		this.new("meta", {parent: document.head, property: "og:title", content: title});
+		return this.attribute("property", "og:title")[0].href;
+	}
+
+	/**
+	 * Set the document's description
+	 * @param {string} description the new description
+	 * @returns            the page's description
+	 */
+	 static description(description){
+		Array.from(this.attribute("name", "description")).forEach(function(element){
+			element.remove();
+		});
+		this.new("meta", {parent: document.head, name: "description", content: description});
+		return this.attribute("name", "description")[0].href;
+	}
+
+	/**
+	 * Set the OG (Open Graph) description
+	 * @param {string} description the new description
+	 * @returns            the page's OG description
+	 */
+	 static ogDescription(description){
+		Array.from(this.attribute("property", "og:description")).forEach(function(element){
+			element.remove();
+		});
+		this.new("meta", {parent: document.head, property: "og:description", content: description});
+		return this.attribute("property", "og:description")[0].href;
 	}
 
 	/**
@@ -226,6 +274,19 @@ export default class clrly{
 		});
 		this.new("link", {parent: document.head, rel: "icon", href: src});
 		return this.attribute("rel", "icon")[0].href;
+	}
+
+	/**
+	 * Set the OG (Open Graph) image (cover image)
+	 * @param {string} src URL of the new OG image
+	 * @returns            the page's OG image src
+	 */
+	 static ogImage(src){
+		Array.from(this.attribute("property", "og:image")).forEach(function(element){
+			element.remove();
+		});
+		this.new("meta", {parent: document.head, property: "og:image", content: src});
+		return this.attribute("property", "og:image")[0].href;
 	}
 
 	/**
@@ -262,7 +323,7 @@ export default class clrly{
 
 	/**
 	 * Initialize the app - set a title, icon, theme color, direction and mobile friendliness
-	 * @param {*} options {title: "title of the app", icon: "icon.png", theme: "#99ff99", dir: "RTL", mobile: true}
+	 * @param {*} options {title: "title of the app", description: "welcome to my app", icon: "icon.png", ogImage: "og.png", theme: "#99ff99", dir: "RTL", mobile: true}
 	 * @returns an array of results from the requested options
 	 */
 	static initialize(options){
@@ -270,8 +331,20 @@ export default class clrly{
 		if(options["title"]){
 			result.push(this.title(options["title"]));
 		}
+		if(options["ogTitle"]){
+			result.push(this.ogTitle(options["ogTitle"]));
+		}
+		if(options["description"]){
+			result.push(this.description(options["description"]));
+		}
+		if(options["ogDescription"]){
+			result.push(this.ogDescription(options["ogDescription"]));
+		}
 		if(options["icon"]){
 			result.push(this.icon(options["icon"]));
+		}
+		if(options["ogImage"]){
+			result.push(this.ogImage(options["ogImage"]));
 		}
 		if(options["theme"]){
 			result.push(this.theme(options["theme"]));
