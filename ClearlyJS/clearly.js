@@ -213,7 +213,7 @@ export default class clrly{
 					callback();
 				}
 			}else{
-				this._importRec(toImport, attribute, callback, i + 1);
+				clrly._importRec(toImport, attribute, callback, i + 1);
 			}
 		}
 	}
