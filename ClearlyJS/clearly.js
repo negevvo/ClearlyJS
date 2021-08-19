@@ -190,27 +190,32 @@ export default class clrly{
 		if(!Array.isArray(toImport)){
 			toImport = [toImport];
 		}
-		var count = 0;
-		for(var link of toImport){
-			var element;
-			if(link.includes(".css")){
-				element = this.new("link", {parent: document.head, href: link, rel: "stylesheet"});
-			}else{
-				element = this.new("script", {parent: document.head, src: link});
-			}
-			for(var attribute in attributes){
-				element.setAttribute(attribute, attributes[attribute]);
-			}
-			element.onload = load;
+		this._importRec(toImport, attributes, callback, 0);
+		return toImport;
+	}
+
+	static _importRec(toImport, attributes, callback, i){
+		var link = toImport[i];
+		var element;
+		if(link.includes(".css")){
+			element = this.new("link", {parent: document.head, href: link, rel: "stylesheet"});
+		}else{
+			element = this.new("script", {parent: document.head, src: link});
 		}
+		for(var attribute in attributes){
+			element.setAttribute(attribute, attributes[attribute]);
+		}
+		element.onload = load;
+
 		function load(){
-			if(++count === toImport.length){
+			if(i === toImport.length - 1){
 				if(callback){
 					callback();
 				}
+			}else{
+				this._importRec(toImport, attribute, callback, i + 1);
 			}
 		}
-		return toImport;
 	}
 
 	/**
