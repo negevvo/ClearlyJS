@@ -37,6 +37,9 @@ export default class clrly{
     static new(type, attributes, ...children){
 		if(type == "clrly"){
 			return this._newElementFromComponent(attributes);
+		}else if(typeof type != typeof ""){
+			attributes.from = type;
+			return this._newElementFromComponent(attributes);
 		}
 		var newElement = this._newElement(type);
 		if (attributes){
