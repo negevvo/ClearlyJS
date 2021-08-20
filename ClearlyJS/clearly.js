@@ -35,10 +35,11 @@ export default class clrly{
 	 * @param {HTML elements} children    (optional) children of the element
 	 * @returns an HTML element
 	 */
-    static new(type="div", attributes={}, ...children){
+    static new(type="div", attributes, ...children){
 		if(type == "clrly"){
 			return this._newElementFromComponent(attributes);
 		}else if(typeof type != typeof ""){
+			attributes = attributes ? attributes : {};
 			attributes.from = type;
 			return this._newElementFromComponent(attributes);
 		}
