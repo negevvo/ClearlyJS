@@ -39,7 +39,7 @@ export default class clrly{
 		if(type == "clrly"){
 			return this._newElementFromComponent(attributes);
 		}else if(typeof type != typeof ""){
-			attributes = attributes ? attributes : {};
+			attributes = attributes || {};
 			attributes.from = type;
 			return this._newElementFromComponent(attributes);
 		}
@@ -81,7 +81,7 @@ export default class clrly{
       	el.style = obj.style;
 		obj.HTML = el;
 		obj.isClearlyComponent = true;
-		obj.start();
+		obj.start(attributes);
       	return obj;
 	}
 
