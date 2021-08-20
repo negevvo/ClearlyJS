@@ -18,6 +18,7 @@ export default class clrly{
 			  );
 			}
 		  }
+		  start(){}
 		  get element() {
 			throw new Error("Please make a getter for the element");
 		  }
@@ -34,7 +35,7 @@ export default class clrly{
 	 * @param {HTML elements} children    (optional) children of the element
 	 * @returns an HTML element
 	 */
-    static new(type, attributes, ...children){
+    static new(type="div", attributes={}, ...children){
 		if(type == "clrly"){
 			return this._newElementFromComponent(attributes);
 		}else if(typeof type != typeof ""){
@@ -79,6 +80,7 @@ export default class clrly{
       	el.style = obj.style;
 		obj.HTML = el;
 		obj.isClearlyComponent = true;
+		obj.start();
       	return obj;
 	}
 
