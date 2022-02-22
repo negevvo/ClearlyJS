@@ -7,7 +7,7 @@
 export default class clrly{
 	// **************************** HTML ELEMENTS AND COMPONENTS ****************************
 	/**
-	 * @todo DOCUMENT THIS!!!!!!!!!!!
+	 * @TODO DOCUMENT THIS!!!!!!!!!!!
 	 */
 	static get component() {
 		return class component {
@@ -17,6 +17,16 @@ export default class clrly{
 				"clrly.component is not an initializeable object, make your own constructor"
 			  );
 			}
+			/* auto change listener instead of updating component
+    		var context = this;
+    		this.p = new Proxy(p, {
+      			set: function (target, key, value) {
+        			target[key] = value;
+        			context.update();
+        			return true;
+      			}
+    		});
+    		*/
 		  }
 		  start(){}
 		  get element() {
@@ -24,6 +34,13 @@ export default class clrly{
 		  }
 		  get style() {
 			return ``;
+		  }
+		  update(callStart = true){
+			var el = this.element;
+			el.style = this.style;
+			this.HTML.parentNode.replaceChild(el, this.HTML);
+			this.HTML = el;
+			if(callStart) this.start();
 		  }
 		};
 	}
