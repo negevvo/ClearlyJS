@@ -48,7 +48,7 @@
 				set: function (object, key, value) {
 					object[key] = value;
 					context.update();
-					if(callback) callback(object, key, value);
+					if(callback) callback(key, value);
 					return true;
 				}
 			});
@@ -58,7 +58,7 @@
 		 * @param {*} stateObjName 
 		 */
 		unregisterUpdate(stateObjName){
-			this[stateObjName] = {};
+			this[stateObjName] = {...this[stateObjName]};
 		}
 	};
 
