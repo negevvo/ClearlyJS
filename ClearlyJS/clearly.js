@@ -4,36 +4,63 @@
  * @version pre2-dev (see @todo)
  * NOTE: Items starting with _ or # won't be documented
  */
-export default class clrly{
+ export default class clrly{
 	// **************************** HTML ELEMENTS AND COMPONENTS ****************************
 	/**
 	 * @TODO DOCUMENT THIS!!!!!!!!!!!
 	 */
-	static get component() {
-		return class component {
-		  constructor(attributes) {
+	static component = class{
+		constructor(attributes) {
 			if (this.constructor === clrly.component) {
-			  throw new Error(
-				"clrly.component is not an initializeable object, make your own constructor"
-			  );
+			  throw new Error("clrly.component is not an initializeable object, make your own component");
 			}
-		  }
-		  start(){}
-		  get element() {
-			throw new Error("Please make a getter for the element");
-		  }
-		  get style() {
+		}
+		start(){}
+		get element() {
+			throw new Error("get element() does not exist");
+		}
+		get style() {
 			return ``;
-		  }
-		  update(callStart = true){
+		}
+		/**
+		 * @todo document this
+		 * @param {*} callStart 
+		 */
+		update(callStart = true){
+			var children = this.HTML.childNodes;
 			var el = this.element;
+			if(children) clrly._appendChildrenToElement(el, Array.from(children));
 			el.style = this.style;
 			this.HTML.parentNode.replaceChild(el, this.HTML);
 			this.HTML = el;
 			if(callStart) this.start();
-		  }
-		};
-	}
+		}
+		/**
+		 * @todo document this
+		 * @param {*} object 
+		 * @param {*} stateObj 
+		 * @param {*} callback 
+		 */
+		registerUpdate(stateObjName, callback){
+			var context = this;
+			if(!context[stateObjName]) context[stateObjName] = {};
+			context[stateObjName] = new Proxy(context[stateObjName], {
+				set: function (object, key, value) {
+					object[key] = value;
+					context.update();
+					if(callback) callback(object, key, value);
+					return true;
+				}
+			});
+		}
+		/**
+		 * @todo document this
+		 * @param {*} stateObjName 
+		 */
+		unregisterUpdate(stateObjName){
+			this[stateObjName] = {};
+		}
+	};
 
 	/**
 	 * makes a new ClearlyHTML element with a type, attributes and children
@@ -43,25 +70,14 @@ export default class clrly{
 	 * @returns an HTML element
 	 */
     static new(type="div", attributes, ...children){
-		if(type == "clrly"){
-			return this._newElementFromComponent(attributes);
-		}else if(typeof type != typeof ""){
-			attributes = attributes || {};
-			attributes.from = type;
-			return this._newElementFromComponent(attributes);
+		attributes = attributes || {};
+		if(type == "clrly" || typeof type != typeof ""){
+			if(typeof type != typeof "") attributes.from = type;
+			return this._newElementFromComponent(attributes, children);
 		}
 		var newElement = this._newElement(type);
-		if (attributes){
-			this.editAttributes(newElement, attributes);
-		}
-		for (var child of children) {
-			try{
-				if(child.isClearlyComponent){
-					child = child.HTML;
-				}
-            	newElement.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child);
-			}catch(e){}
-        }
+		this.editAttributes(newElement, attributes);
+		this._appendChildrenToElement(newElement, children);
 		/**
 		 * Edits the element's attributes
 		 * @param {*} attributes attributes to change
@@ -73,22 +89,38 @@ export default class clrly{
 		newElement.isClearlyHTML = true;
 		return newElement;
 	}
+
+	static _appendChildrenToElement(element, children){
+		if(children){
+			for (var child of children) {
+				try{
+					if(child.isClearlyComponent){
+						child = child.HTML;
+					}
+					element.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child);
+				}catch(e){}
+			}
+		}
+	}
+
 	static _newElement(type){
 		var newElement = document.createElement(type);
 		document.body.appendChild(newElement);
 		return newElement;
 	}
-	static _newElementFromComponent(attributes){
+
+	static _newElementFromComponent(attributes, children){
 		var objectClass = attributes.from;
       	if (!objectClass) {
         	throw new Error("Cannot find the component");
       	}
       	var obj = new objectClass(attributes);
       	var el = obj.element;
-      	el.style = obj.style;
+      	if(obj.style) el.style = obj.style;
+		this._appendChildrenToElement(el, children);
 		obj.HTML = el;
 		obj.isClearlyComponent = true;
-		obj.start(attributes);
+		if(obj.start) obj.start(attributes);
       	return obj;
 	}
 
