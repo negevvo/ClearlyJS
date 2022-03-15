@@ -27,9 +27,7 @@
 		 * @param {*} callStart 
 		 */
 		update(callStart = true){
-			var children = this.HTML.childNodes;
 			var el = this.element;
-			if(children) clrly._appendChildrenToElement(el, Array.from(children));
 			el.style = this.style;
 			this.HTML.parentNode.replaceChild(el, this.HTML);
 			this.HTML = el;
@@ -41,13 +39,13 @@
 		 * @param {*} stateObj 
 		 * @param {*} callback 
 		 */
-		registerUpdate(stateObjName, callback){
+		registerUpdate(stateObjName, callStart, callback){
 			var context = this;
 			if(!context[stateObjName]) context[stateObjName] = {};
 			context[stateObjName] = new Proxy(context[stateObjName], {
 				set: function (object, key, value) {
 					object[key] = value;
-					context.update();
+					context.update(callStart);
 					if(callback) callback(key, value);
 					return true;
 				}
@@ -93,12 +91,16 @@
 	static _appendChildrenToElement(element, children){
 		if(children){
 			for (var child of children) {
-				try{
-					if(child.isClearlyComponent){
-						child = child.HTML;
-					}
-					element.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child);
-				}catch(e){}
+				if(Array.isArray(child)){
+					this._appendChildrenToElement(element, child);
+				}else{
+					try{
+						if(child.isClearlyComponent){
+							child = child.HTML;
+						}
+						element.appendChild(child.nodeType == null ? document.createTextNode(child.toString()) : child);
+					}catch(e){}
+				}
 			}
 		}
 	}
@@ -114,10 +116,10 @@
       	if (!objectClass) {
         	throw new Error("Cannot find the component");
       	}
+		attributes.children = children;
       	var obj = new objectClass(attributes);
       	var el = obj.element;
       	if(obj.style) el.style = obj.style;
-		this._appendChildrenToElement(el, children);
 		obj.HTML = el;
 		obj.isClearlyComponent = true;
 		if(obj.start) obj.start(attributes);
