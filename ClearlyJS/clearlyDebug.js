@@ -1,9 +1,10 @@
+import clrly from "https://cdn.jsdelivr.net/gh/negevvo/ClearlyJS@pre2-dev/ClearlyJS/clearly.js"
 /**
  * ClearlyDebug - a debugging tool for ClearlyJs
  * @author Negev Volokita (negevvo)
- * @version 1
+ * @version pre2-dev (I'm thinking about rewriting this tool)
  */
-class clrlyDebug{
+export default class clrlyDebug{
 	/**
 	 * starts a debugging session
 	 */
@@ -77,30 +78,22 @@ class clrlyDebug{
 				color: #003399;
 			}
 		`);
-		var btn = clrly.new("button", {id: "clearlyErrorButton", innerHTML: "!", onclick: "clrlyDebug.showErrors()"});
-		clrly.new("div", {id: "clearlyErrorsBack", onclick: "clrlyDebug.hideErrors()"});
+		var debug = this;
+		var btn = clrly.new("button", {id: "clearlyErrorButton", innerHTML: "!"});
+		btn.onclick = function(){
+			debug.showErrors();
+		}
+		var errorsBack = clrly.new("div", {id: "clearlyErrorsBack"});
+		errorsBack.onclick = function(){
+			debug.hideErrors();
+		}
 		var div = clrly.new("div", {id: "clearlyErrors"});
-		window.onerror = function(message, url, line, column, error) {
-			var inFileTxt = "<br/>In file: ";
-			var lineTxt = "<br/>Line: ";
-			var columnTxt = ", Column: ";
+		window.onerror = function(message = "", url = "", line = "", column = "", error = "") {
+			var inFileTxt = url != "" ? "<br/>In file: " : "";
+			var lineTxt = line != "" ? "<br/>Line: " : "";
+			var columnTxt = column != "" ? ", Column: " : "";
 			var errorTxt = "<br/>";
-			switch(undefined || null || ""){
-				case message:
-					message = "";
-				case url:
-					url = "";
-					inFileTxt = "";
-				case line:
-					line = "";
-					lineTxt = "";
-				case column:
-					column = "";
-					columnTxt = "";
-				case error:
-					error = "";
-			}
-			clrly.new("h1", {parent: div, innerHTML: `${message}${inFileTxt}${url}${lineTxt}${line}${columnTxt}${column}${errorTxt}${error}`});
+			clrly.new("h1", {parent: div, innerHTML: `${message.replaceAll("\n", "<br/>")}${inFileTxt}${url}${lineTxt}${line}${columnTxt}${column}${errorTxt}${error}`});
 			clrly.new("a", {parent: div, innerHTML: "Search error on Google", href: `https://www.google.com/search?q=${message}`, target: "_blank"});
 			clrly.new("br", {parent: div});
 			clrly.new("a", {parent: div, innerHTML: "Search error on Bing", href: `https://www.bing.com/search?q=${message}`, target: "_blank"});
@@ -129,6 +122,3 @@ class clrlyDebug{
 		clrly.id("clearlyErrorsBack").style.display = "none";
 	}
 }
-
-//Starts debugging when file loads
-clrlyDebug.debug();
