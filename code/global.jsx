@@ -1,3 +1,5 @@
+import clrly from 'https://cdn.jsdelivr.net/npm/clearlyjs'
+
 const APP_NAME = "ClearlyJS";
 var maindir = ".";
 function init(page, mainDir){
@@ -9,27 +11,30 @@ function mainStyle(){
     @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight:wght@700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
     *{
-        font-family: 'Nunito', sans-serif;
+        font-family: monospace;
         transition: all 1s;
     }
     body{
         margin: 0;
         text-align: center;
-        background-color: #f2f2f2;
+        background-color: #FFF2CC;
         position: relative;
     }
     ::selection{
         background: #332f00;
-        color: #e6e6e6;
+        color: #FFF2CC;
     }
     a{
         color: black;
+        text-decoration: none;
     }
     a:hover{
-        color: #4d3900;
+        color: white;
+        background: black;
     }
     .title, a{
-        font-family: 'Zilla Slab Highlight', cursive;
+        font-family: monospace;
+        color: #332f00;
     }
     .center{
         position: absolute;
@@ -38,7 +43,7 @@ function mainStyle(){
         transform: translate(-50%, -50%);
     }
     #background{
-        opacity: 0.15;
+        opacity: 0.1;
         position: fixed;
         top: 0;
         bottom: 0;
