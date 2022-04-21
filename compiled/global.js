@@ -1,19 +1,20 @@
 import clrly from 'https://cdn.jsdelivr.net/npm/clearlyjs';
-const APP_NAME = "ClearlyJS";
-var maindir = ".";
+export default function global() {
+  const APP_NAME = "ClearlyJS";
+  var maindir = ".";
 
-function init(page, mainDir) {
-  maindir = mainDir;
-  return clrly.initialize({
-    title: `${page} | ${APP_NAME}`,
-    icon: `${mainDir}/favicon.png`,
-    theme: "#f2f2f2",
-    mobile: true
-  });
-}
+  function init(page, mainDir) {
+    maindir = mainDir;
+    return clrly.initialize({
+      title: `${page} | ${APP_NAME}`,
+      icon: `${mainDir}/favicon.png`,
+      theme: "#f2f2f2",
+      mobile: true
+    });
+  }
 
-function mainStyle() {
-  return clrly.style(`
+  function mainStyle() {
+    return clrly.style(`
     @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight:wght@700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
     *{
@@ -68,10 +69,10 @@ function mainStyle() {
         color: #9c9c9c;
     }
 `);
-}
+  }
 
-function nav() {
-  return clrly.new("nav", null, clrly.style(`
+  function nav() {
+    return clrly.new("nav", null, clrly.style(`
                 nav{
                     background-color: rgba(255, 255, 255, 0.7);
                     backdrop-filter: blur(5px);
@@ -86,8 +87,9 @@ function nav() {
                     filter: drop-shadow(0 0px 8px #2d2e1536);
                 }
             `), clrly.new("a", {
-    href: maindir
-  }, clrly.new("img", {
-    src: `${maindir}/icon.png`
-  })));
+      href: maindir
+    }, clrly.new("img", {
+      src: `${maindir}/icon.png`
+    })));
+  }
 }

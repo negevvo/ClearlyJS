@@ -1,6 +1,8 @@
 import clrly from 'https://cdn.jsdelivr.net/npm/clearlyjs';
-init("Home", ".");
-mainStyle();
+import Global from './global.js';
+Global.init("Home", ".");
+Global.mainStyle();
+const APP_NAME = Global.APP_NAME;
 var bg, bgTxt;
 clrly.new("main", null, bg = clrly.new("div", {
   id: "background"
