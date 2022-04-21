@@ -1,12 +1,13 @@
 import clrly from 'https://cdn.jsdelivr.net/npm/clearlyjs'
 
-const APP_NAME = "ClearlyJS";
-var maindir = ".";
-function init(page, mainDir){
+export default class Global(){
+APP_NAME = "ClearlyJS";
+maindir = ".";
+static init(page, mainDir){
     maindir = mainDir;
     return clrly.initialize({title: `${page} | ${APP_NAME}`, icon: `${mainDir}/favicon.png`, theme: "#f2f2f2", mobile: true});
 }
-function mainStyle(){
+static mainStyle(){
     return clrly.style(`
     @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight:wght@700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
@@ -63,7 +64,7 @@ function mainStyle(){
     }
 `);
 }
-function nav(){
+static nav(){
     return <nav>
         {
             clrly.style(`
@@ -86,4 +87,5 @@ function nav(){
             <img src={`${maindir}/icon.png`}/>
         </a>
     </nav>
+}
 }
