@@ -1,9 +1,14 @@
-import clrly from 'https://cdn.jsdelivr.net/npm/clearlyjs';
-export default function global() {
-  const APP_NAME = "ClearlyJS";
-  var maindir = ".";
+import clrly from 'https://cdn.jsdelivr.net/npm/clearlyjs/clearly.js';
+export default class Global {
+  static get APP_NAME() {
+    return "ClearlyJS";
+  }
 
-  function init(page, mainDir) {
+  static get maindir() {
+    return ".";
+  }
+
+  static init(page, mainDir) {
     maindir = mainDir;
     return clrly.initialize({
       title: `${page} | ${APP_NAME}`,
@@ -13,7 +18,7 @@ export default function global() {
     });
   }
 
-  function mainStyle() {
+  static mainStyle() {
     return clrly.style(`
     @import url('https://fonts.googleapis.com/css2?family=Zilla+Slab+Highlight:wght@700&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap');
@@ -71,7 +76,7 @@ export default function global() {
 `);
   }
 
-  function nav() {
+  static nav() {
     return clrly.new("nav", null, clrly.style(`
                 nav{
                     background-color: rgba(255, 255, 255, 0.7);
@@ -92,4 +97,5 @@ export default function global() {
       src: `${maindir}/icon.png`
     })));
   }
+
 }
