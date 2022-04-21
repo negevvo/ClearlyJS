@@ -7,8 +7,8 @@ export default class Global {
   static init(page, mainDir) {
     Global.maindir = mainDir || '.';
     return clrly.initialize({
-      title: `${page} | ${APP_NAME}`,
-      icon: `${mainDir}/favicon.png`,
+      title: `${page} | ${Global.APP_NAME}`,
+      icon: `${Global.mainDir}/favicon.png`,
       theme: "#f2f2f2",
       mobile: true
     });
@@ -88,9 +88,9 @@ export default class Global {
                     filter: drop-shadow(0 0px 8px #2d2e1536);
                 }
             `), clrly.new("a", {
-      href: maindir
+      href: Global.maindir
     }, clrly.new("img", {
-      src: `${maindir}/icon.png`
+      src: `${Global.maindir}/icon.png`
     })));
   }
 
