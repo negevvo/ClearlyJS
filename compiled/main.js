@@ -1,4 +1,4 @@
-import clrly from 'https://cdn.jsdelivr.net/npm/clearlyjs';
+import clrly from 'https://cdn.jsdelivr.net/npm/clearlyjs/clearly.js';
 import Global from './global.js';
 Global.init("Home", ".");
 Global.mainStyle();
