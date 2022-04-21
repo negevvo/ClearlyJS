@@ -11,13 +11,14 @@ clrly.new("main", null, bg = clrly.new("div", {
   id: "bgTxt"
 })), clrly.new("div", {
   class: "center"
-}, clrly.new("img", {
-  src: `${maindir}/logo.png`,
-  style: "width: 50vw;"
-}), clrly.new("h1", {
+}, clrly.new("h1", {
   class: "title",
   style: "width: 100vw;"
-}, generateTitle()), clrly.new("h2", {
+}, generateTitle()),
+               clrly.new("h1", {
+  class: "title",
+  style: "width: 100vw;"
+}, "A new website for ClearlyJS is coming soon"), clrly.new("h2", {
   class: "title",
   style: "cursor: default;"
 }, clrly.new("a", {
