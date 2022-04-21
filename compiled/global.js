@@ -8,7 +8,7 @@ export default class Global {
     Global.maindir = mainDir || '.';
     return clrly.initialize({
       title: `${page} | ${Global.APP_NAME}`,
-      icon: `${Global.mainDir}/favicon.png`,
+      icon: `${mainDir}/favicon.png`,
       theme: "#f2f2f2",
       mobile: true
     });

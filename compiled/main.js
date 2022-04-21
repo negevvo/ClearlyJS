@@ -3,6 +3,7 @@ import Global from './global.js';
 Global.init("Home", ".");
 Global.mainStyle();
 const APP_NAME = Global.APP_NAME;
+var maindir = Global.maindir;
 var bg, bgTxt;
 clrly.new("main", null, bg = clrly.new("div", {
   id: "background"
