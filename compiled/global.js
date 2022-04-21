@@ -4,12 +4,8 @@ export default class Global {
     return "ClearlyJS";
   }
 
-  static get maindir() {
-    return ".";
-  }
-
   static init(page, mainDir) {
-    maindir = mainDir;
+    Global.maindir = mainDir || '.';
     return clrly.initialize({
       title: `${page} | ${APP_NAME}`,
       icon: `${mainDir}/favicon.png`,
