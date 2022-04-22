@@ -1,8 +1,6 @@
 # ClearlyJS (Preview)
 
-## It is now official - the final version of ClearlyJS and the beta of Craft IDE will be out soon! 
-
-[![Featured on Openbase](https://badges.openbase.com/js/featured/clearlyjs.svg?token=3MyqWPyvyI+UNZ1H3zPts9TEuB81gnjFliZCvKRsN2c=)](https://openbase.com/js/clearlyjs?utm_source=embedded&amp;utm_medium=badge&amp;utm_campaign=rate-badge)
+## It is now official - the final version of ClearlyJS and the beta of Craft IDE will be out soon!
 
 Templates are not avaiable for this version yet.
 
