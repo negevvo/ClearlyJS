@@ -1,7 +1,7 @@
 /**
  * ClearlyJs
  * @author Negev Volokita (negevvo)
- * @version pre2-dev (see @todo)
+ * @version dev-pre-release (see @todo)
  * NOTE: Items starting with _ or # won't be documented
  */
  export default class clrly{
@@ -759,3 +759,141 @@
 		a.remove();
 	}
 }
+
+
+
+// **************************** SWITCHER AND ROUTER ****************************
+// **************************** EXPERIMENTAL ****************************
+
+/**
+ * Switcheable
+ * @TODO document this
+ */
+class Switchable extends clrly.component{
+	constructor(props){
+	  super(props);
+	}
+	appendTo(parent, props = {}){
+	  this.switcherParent = parent;
+	  this.sProps = props;
+	  this.start();
+	  this.update();
+	}
+	start(){
+	  this.HTML.editAttributes({
+		parent: this.switcherParent
+	  })
+	}
+	onSwitch(){}
+	get isSwitchable(){ return true; }
+}
+
+/**
+ * SwitcherRouterBase
+ * @TODO document this (?)
+ */
+class _SwitcherRouterBase extends clrly.component{
+	constructor(props){
+	  super(props);
+	  this.state = props;
+	  this.registerUpdate("state");
+	  this.clear();
+	}
+	set current(current){
+	  this.state.current = current;
+	}
+}
+
+/**
+ * The ClearlyJS Switcher
+ * @TODO document this
+ */
+class Switcher extends _SwitcherRouterBase{
+	get element(){
+	  const PARENT = clrly.new("div");
+	  let screen = this.state.current || {i: 0, props: {}};
+	  if(this.screens.length == 0) return PARENT;
+	  if(screen.i > this.screens.length || screen.i < 1) screen.i = 1;
+	  else{
+		let sc = this.screens[screen.i - 1];
+		if(sc.isSwitchable){
+		  sc.appendTo(PARENT, screen.props);
+		  sc.onSwitch();
+		}
+	  }
+	  return PARENT;
+	}
+	addScreen(screen){
+	  this.screens.push(screen);
+	  screen.HTML.remove();
+	  return this.screens.length;
+	}
+	get currentId(){
+	  return this.state.current.i;
+	}
+	clear(){
+	  this.screens = [];
+	}
+}
+
+/**
+ * The ClearlyJS Router
+ * @TODO document this
+ */
+class Router extends _SwitcherRouterBase{
+	static get NOT_FOUND_PATH(){ return "/404" };
+	constructor(props){
+	  super(props);
+	  window.onpopstate = this.init;
+	}
+	get element(){
+	  const PARENT = clrly.new("div");
+	  let route = this.state.current;
+	  if(this.routes == {} || route == null) return PARENT;
+	  let rc = this.routes[route.route] || this.routes[Router.NOT_FOUND_PATH];
+	  if(rc.isSwitchable){
+		window.history.pushState({}, "", route.route);
+		rc.appendTo(PARENT, route.props);
+		rc.onSwitch();
+	  }
+	  return PARENT;
+	}
+	addRoute(route, routeable){
+	  this.routes[route] = routeable;
+	  routeable.HTML.remove();
+	  return route;
+	}
+	get currentRoute(){
+	  return this.state.current.route;
+	}
+	clear(){
+	  this.routes = {};
+	  this.addRoute(Router.NOT_FOUND_PATH, this.state.notFound);
+	}
+	async init(){
+	  this.current = {
+		route: window.location.pathname,
+		props: {}
+	  };
+	}
+}
+
+/**
+ * Switchable div
+ * @TODO document this
+ */
+class Sdiv extends Switchable{
+	constructor(props){
+	  super(props);
+	  this.state = props;
+	  this.registerUpdate("state");
+	}
+	get element(){
+	  return clrly.new("div", {}, ...this.state.children);
+	}
+	onSwitch(){
+	  if(this.state.onSwitch) this.state.onSwitch();
+	}
+}
+
+export {clrly, Switchable, Switcher, Router, Sdiv}
