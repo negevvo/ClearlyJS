@@ -7,7 +7,7 @@
  export default class clrly{
 	// **************************** HTML ELEMENTS AND COMPONENTS ****************************
 	/**
-	 * @TODO DOCUMENT THIS!!!!!!!!!!!
+	 * @todo DOCUMENT THIS!!!!!!!!!!!
 	 */
 	static component = class{
 		constructor(attributes) {
@@ -71,11 +71,11 @@
 		attributes = attributes || {};
 		if(type == "clrly" || typeof type != typeof ""){
 			if(typeof type != typeof "") attributes.from = type;
-			return this._newElementFromComponent(attributes, children);
+			return this.#newElementFromComponent(attributes, children);
 		}
-		var newElement = this._newElement(type);
+		var newElement = this.#newElement(type);
 		this.editAttributes(newElement, attributes);
-		this._appendChildrenToElement(newElement, children);
+		this.#appendChildrenToElement(newElement, children);
 		/**
 		 * Edits the element's attributes
 		 * @param {*} attributes attributes to change
@@ -88,11 +88,11 @@
 		return newElement;
 	}
 
-	static _appendChildrenToElement(element, children){
+	static #appendChildrenToElement(element, children){
 		if(children){
 			for (var child of children) {
 				if(Array.isArray(child)){
-					this._appendChildrenToElement(element, child);
+					this.#appendChildrenToElement(element, child);
 				}else{
 					try{
 						if(child.isClearlyComponent){
@@ -105,13 +105,13 @@
 		}
 	}
 
-	static _newElement(type){
+	static #newElement(type){
 		var newElement = document.createElement(type);
 		document.body.appendChild(newElement);
 		return newElement;
 	}
 
-	static _newElementFromComponent(attributes, children){
+	static #newElementFromComponent(attributes, children){
 		var objectClass = attributes.from;
       	if (!objectClass) {
         	throw new Error("Cannot find the component");
@@ -179,75 +179,73 @@
 	 * Get element by id
 	 * @param {string} id id of the element
 	 * @returns           DOM element with the specified id, or undefined
-	 * @see Xid
+	 * @see xid
 	 */
 	static id(id){
-		return this.Xid(document, id);
+		return this.xid(document, id);
 	}
 
 	/**
 	 * Get elements by class name
 	 * @param {string} className class name of the elements
-	 * @returns                  HTML elements collection which includes all elements with the specified class name, or an empty array
-	 * @see Xclass
+	 * @returns                  all elements with the specified class name, or an empty array
+	 * @see xclass
 	*/
 	static class(className){
-		return this.Xclass(document, className);
+		return this.xclass(document, className);
 	}
 
 	/**
 	 * Get elements by tag name
 	 * @param {string} tagName tag name of the elements
-	 * @returns                HTML elements collection which includes all elements with the specified tag name, or an empty array
-	 * @see Xtag
+	 * @returns                all elements with the specified tag name, or an empty array
+	 * @see xtag
 	 */
 	static tag(tagName){
-		return this.Xtag(document, tagName);
+		return this.xtag(document, tagName);
 	}
 
 	/**
-	 * Get elements by Query selector (CSS selector)
+	 * Get elements by Query selector
 	 * @param {string} selector Query selector
-	 * @returns                HTML elements collection which includes all elements with the specified Query selector, or an empty array
-	 * @see Xselect
+	 * @returns                all elements with the specified Query selector, or an empty array
+	 * @see x$
 	 */
-	 static select(selector){
-		return this.Xselect(document, selector);
+	static $(selector){
+		return this.x$(document, selector);
 	}
 
 	/**
 	 * Get elements by attribute
 	 * @param {string} attribute attribute name of the elements
 	 * @param {string} value     value of the attribute
-	 * @returns                  HTML elements collection which includes all elements with the specified attribute and attribute value, or an empty array
-	 * @see Xattribute
+	 * @returns                  all elements with the specified attribute and attribute value, or an empty array
+	 * @see xattribute
 	 */
-	 static attribute(attribute, value){
-		return this.Xattribute(document, attribute, value);
+	static attribute(attribute, value){
+		return this.xattribute(document, attribute, value);
 	}
 
 	/**
 	 * Import style / script (css and js files only)
-	 * @param {string} toImport  resources to import (as an array of strings or a single string)
-	 * @param {*} attributes {defer: true, type: "module"} etc...
-	 * @param {function} callback a function to be called after all resources loaded
+	 * @param {string} toImport		resources to import (as an array of strings or a single string)
+	 * @param {*} attributes 		{defer: true, type: "module"} etc...
+	 * @param {function} callback 	a function to be called after all resources loaded
 	 * @returns				 An array with all imported resources
 	 */
 	static import(toImport, attributes, callback){
-		if(!Array.isArray(toImport)){
-			toImport = [toImport];
-		}
-		this._importRec(toImport, attributes, callback, 0);
+		if(!Array.isArray(toImport)) toImport = [toImport];
+		this.#importRec(toImport, attributes, callback, 0);
 		return toImport;
 	}
 
-	static _importRec(toImport, attributes, callback, i){
+	static #importRec(toImport, attributes, callback, i){
 		var link = toImport[i];
 		var element;
 		if(link.includes(".css")){
-			element = this.new("link", {parent: document.head, href: link, rel: "stylesheet"});
+			element = clrly.new("link", {parent: document.head, href: link, rel: "stylesheet"});
 		}else{
-			element = this.new("script", {parent: document.head, src: link});
+			element = clrly.new("script", {parent: document.head, src: link});
 		}
 		for(var attribute in attributes){
 			element.setAttribute(attribute, attributes[attribute]);
@@ -260,7 +258,7 @@
 					callback();
 				}
 			}else{
-				clrly._importRec(toImport, attribute, callback, i + 1);
+				clrly.#importRec(toImport, attribute, callback, i + 1);
 			}
 		}
 	}
@@ -280,11 +278,11 @@
 	 * @returns            the page's OG title
 	 */
 	 static ogTitle(title){
-		Array.from(this.attribute("property", "og:title")).forEach(function(element){
+		Array.from(clrly.attribute("property", "og:title")).forEach(function(element){
 			element.remove();
 		});
-		this.new("meta", {parent: document.head, property: "og:title", content: title});
-		return this.attribute("property", "og:title")[0].href;
+		clrly.new("meta", {parent: document.head, property: "og:title", content: title});
+		return clrly.attribute("property", "og:title")[0].href;
 	}
 
 	/**
@@ -293,11 +291,11 @@
 	 * @returns            the page's description
 	 */
 	 static description(description){
-		Array.from(this.attribute("name", "description")).forEach(function(element){
+		Array.from(clrly.attribute("name", "description")).forEach(function(element){
 			element.remove();
 		});
-		this.new("meta", {parent: document.head, name: "description", content: description});
-		return this.attribute("name", "description")[0].href;
+		clrly.new("meta", {parent: document.head, name: "description", content: description});
+		return clrly.attribute("name", "description")[0].href;
 	}
 
 	/**
@@ -306,11 +304,11 @@
 	 * @returns            the page's OG description
 	 */
 	 static ogDescription(description){
-		Array.from(this.attribute("property", "og:description")).forEach(function(element){
+		Array.from(clrly.attribute("property", "og:description")).forEach(function(element){
 			element.remove();
 		});
-		this.new("meta", {parent: document.head, property: "og:description", content: description});
-		return this.attribute("property", "og:description")[0].href;
+		clrly.new("meta", {parent: document.head, property: "og:description", content: description});
+		return clrly.attribute("property", "og:description")[0].href;
 	}
 
 	/**
@@ -319,11 +317,11 @@
 	 * @returns            the page's icon src
 	 */
 	static icon(src){
-		Array.from(this.attribute("rel", "icon")).forEach(function(element){
+		Array.from(clrly.attribute("rel", "icon")).forEach(function(element){
 			element.remove();
 		});
-		this.new("link", {parent: document.head, rel: "icon", href: src});
-		return this.attribute("rel", "icon")[0].href;
+		clrly.new("link", {parent: document.head, rel: "icon", href: src});
+		return clrly.attribute("rel", "icon")[0].href;
 	}
 
 	/**
@@ -332,11 +330,11 @@
 	 * @returns            the page's OG image src
 	 */
 	 static ogImage(src){
-		Array.from(this.attribute("property", "og:image")).forEach(function(element){
+		Array.from(clrly.attribute("property", "og:image")).forEach(function(element){
 			element.remove();
 		});
-		this.new("meta", {parent: document.head, property: "og:image", content: src});
-		return this.attribute("property", "og:image")[0].href;
+		clrly.new("meta", {parent: document.head, property: "og:image", content: src});
+		return clrly.attribute("property", "og:image")[0].href;
 	}
 
 	/**
@@ -345,12 +343,12 @@
 	 * @returns              the page's theme color
 	 */
 	 static theme(color){
-		Array.from(this.attribute("name", "theme-color")).concat(Array.from(this.attribute("name", "apple-mobile-web-app-status-bar-style"))).forEach(function(element){
+		Array.from(clrly.attribute("name", "theme-color")).concat(Array.from(clrly.attribute("name", "apple-mobile-web-app-status-bar-style"))).forEach(function(element){
 			element.remove();
 		});
-		this.new("meta", {parent: document.head, name: "theme-color", content: color});
-		this.new("meta", {parent: document.head, name: "apple-mobile-web-app-status-bar-style", content: color});
-		return this.attribute("name", "theme-color")[0].content;
+		clrly.new("meta", {parent: document.head, name: "theme-color", content: color});
+		clrly.new("meta", {parent: document.head, name: "apple-mobile-web-app-status-bar-style", content: color});
+		return clrly.attribute("name", "theme-color")[0].content;
 	}
 
 	/**
@@ -368,7 +366,7 @@
 	 */
 	 static mobileFriendly(value = true){
 		var scalable = (value == "app" ? ", user-scalable=no" : "");
-		return this.new("meta", {parent: document.head, name: "viewport", content: `width=device-width, initial-scale=1.0${scalable}`});
+		return clrly.new("meta", {parent: document.head, name: "viewport", content: `width=device-width, initial-scale=1.0${scalable}`});
 	}
 
 	/**
@@ -378,32 +376,9 @@
 	 */
 	static initialize(options){
 		var result = [];
-		if(options["title"]){
-			result.push(this.title(options["title"]));
-		}
-		if(options["ogTitle"]){
-			result.push(this.ogTitle(options["ogTitle"]));
-		}
-		if(options["description"]){
-			result.push(this.description(options["description"]));
-		}
-		if(options["ogDescription"]){
-			result.push(this.ogDescription(options["ogDescription"]));
-		}
-		if(options["icon"]){
-			result.push(this.icon(options["icon"]));
-		}
-		if(options["ogImage"]){
-			result.push(this.ogImage(options["ogImage"]));
-		}
-		if(options["theme"]){
-			result.push(this.theme(options["theme"]));
-		}
-		if(options["dir"]){
-			result.push(this.dir(options["dir"]));
-		}
-		if(options["mobile"]){
-			result.push(this.mobileFriendly(options["mobile"]));
+		const OPTIONS = [["title", this.title], ["ogTitle", this.ogTitle], ["description", this.description], ["ogDescription", this.ogDescription],  ["icon", this.icon],  ["ogImage", this.ogImage],  ["theme", this.theme],  ["dir", this.dir],  ["mobile", this.mobileFriendly]];
+		for(let option of OPTIONS){
+			if(options[option[0]]) result.push(option[1](options[option[0]]));
 		}
 		return result;
 	}
@@ -416,7 +391,7 @@
 	 * @returns              the style element in the HTML
 	 */
 	 static style(style){
-		return this.new("style", {parent: document.head, innerHTML: style});
+		return clrly.new("style", {parent: document.head, innerHTML: style});
 	}
 
 	/**
@@ -542,9 +517,6 @@
 
 
 	// **************************** COOKIES ****************************
-	static get _MONTHS(){
-		return ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-	}
 
 	/**
 	 * Makes a new cookie
@@ -556,9 +528,10 @@
 	 * @returns content
 	 */
 	static cookie(name, content, day, month, year){
-		var date = "31 Dec 2036";
+		const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+		let date = "31 Dec 2036";
 		if(typeof(day) != "undefined" && typeof(month) != "undefined" && typeof(year) != "undefined"){
-			month = this._MONTHS[month-1];
+			month = MONTHS[month-1];
 			date = (day) + ' ' + month + ' ' + year;
 		}
 		document.cookie = name+'='+content+'; expires=' + date + ' 23:59:59 UTC; path=/';
@@ -640,12 +613,8 @@
 	 * @param {string} id id of the XML element
 	 * @returns           XML element with the specified id, or undefined
 	 */
-	 static Xid(xml, id){
-		try{
-		return xml.getElementById(id);
-		}catch(e){
-			return undefined;
-		}
+	 static xid(xml, id){
+		return xml.getElementById(id) || undefined;
 	}
 
 	/**
@@ -654,12 +623,8 @@
 	 * @param {string} className class name of the XML elements
 	 * @returns                  all elements with the specified class name, or an empty array
 	 */
-	static Xclass(xml, className){
-		try{
-			return xml.getElementsByClassName(className);
-		}catch(e){
-			return [];
-		}
+	static xclass(xml, className){
+		return xml.getElementsByClassName(className) || [];
 	}
 
 	/**
@@ -668,26 +633,20 @@
 	 * @param {string} tagName tag name of the XML elements
 	 * @returns                all XML elements with the specified tag name, or an empty array
 	 */
-	static Xtag(xml, tagName){
-		try{
-			return xml.getElementsByTagName(tagName);
-		}catch(e){
-			return [];
-		}
+	static xtag(xml, tagName){
+		return xml.getElementsByTagName(tagName) || [];
 	}
 
 	/**
-	 * Get XML elements by Query selector (CSS selector)
+	 * Get XML elements by Query selector
 	 * @param {*} xml XML element @see getXML
 	 * @param {string} selector Query selector
-	 * @returns                HTML elements collection which includes all elements with the specified Query selector, or an empty array
+	 * @returns                all elements with the specified Query selector, or an empty array
 	 */
-	 static Xselect(xml, selector){
+	 static x$(xml, selector){
 		try{
-			return xml.querySelectorAll(selector);
-		}catch(e){
-			return [];
-		}
+			return xml.querySelectorAll(selector) || [];
+		}catch(e){ return [] }
 	}
 
 	/**
@@ -697,12 +656,8 @@
 	 * @param {string} value     value of the attribute
 	 * @returns                  all XML elements with the specified attribute and attribute value, or an empty array
 	 */
-	 static Xattribute(xml, attribute, value){
-		try{
-			return this.Xselect(xml, '['+attribute+'="'+value+'"]');
-		}catch(e){
-			return [];
-		}
+	static xattribute(xml, attribute, value){
+		return this.x$(xml, `[${attribute}="${value}"]`);
 	}
 
 	/**
@@ -710,8 +665,8 @@
 	 * @param {*} element XML element
 	 * @returns the value of the xml element
 	 */
-	static Xvalue(XMLelement){
-		return XMLelement.firstChild.nodeValue;
+	static xvalue(element){
+		return element.firstChild.nodeValue;
 	}
 
 
@@ -754,7 +709,7 @@
 	 * @param {string} fileName name of the downloaded file (For example: MyFile.txt)
 	 */
 	static download(URL, fileName){
-		var a = this.new("a", {href: URL, download: fileName});
+		var a = clrly.new("a", {href: URL, download: fileName});
 		a.click();
 		a.remove();
 	}
@@ -767,7 +722,7 @@
 
 /**
  * Switcheable
- * @TODO document this
+ * @todo document this
  */
 class Switchable extends clrly.component{
 	constructor(props){
@@ -790,7 +745,7 @@ class Switchable extends clrly.component{
 
 /**
  * SwitcherRouterBase
- * @TODO document this (?)
+ * @todo document this (?)
  */
 class _SwitcherRouterBase extends clrly.component{
 	constructor(props){
@@ -806,7 +761,7 @@ class _SwitcherRouterBase extends clrly.component{
 
 /**
  * The ClearlyJS Switcher
- * @TODO document this
+ * @todo document this
  */
 class Switcher extends _SwitcherRouterBase{
 	get element(){
@@ -838,25 +793,33 @@ class Switcher extends _SwitcherRouterBase{
 
 /**
  * The ClearlyJS Router
- * @TODO document this
+ * @todo document this
  */
 class Router extends _SwitcherRouterBase{
 	static get NOT_FOUND_PATH(){ return "/404" };
 	constructor(props){
 	  super(props);
-	  window.onpopstate = this.init;
+	  window.onpopstate = this.initialize;
 	}
 	get element(){
 	  const PARENT = clrly.new("div");
 	  let route = this.state.current;
 	  if(this.routes == {} || route == null) return PARENT;
-	  let rc = this.routes[route.route] || this.routes[Router.NOT_FOUND_PATH];
+	  let rc = this.#getRoute(route.route);
 	  if(rc.isSwitchable){
 		window.history.pushState({}, "", route.route);
 		rc.appendTo(PARENT, route.props);
 		rc.onSwitch();
 	  }
 	  return PARENT;
+	}
+	#getRoute(route){
+		for(let expectedRoute in this.routes){
+			if(expectedRoute.match(`^${route}/?$`)){
+				return this.routes[expectedRoute];
+			}
+		}
+		return this.routes[Router.NOT_FOUND_PATH];
 	}
 	addRoute(route, routeable){
 	  this.routes[route] = routeable;
@@ -870,7 +833,7 @@ class Router extends _SwitcherRouterBase{
 	  this.routes = {};
 	  this.addRoute(Router.NOT_FOUND_PATH, this.state.notFound);
 	}
-	async init(){
+	async initialize(){
 	  this.current = {
 		route: window.location.pathname,
 		props: {}
@@ -880,7 +843,7 @@ class Router extends _SwitcherRouterBase{
 
 /**
  * Switchable div
- * @TODO document this
+ * @todo document this
  */
 class Sdiv extends Switchable{
 	constructor(props){
