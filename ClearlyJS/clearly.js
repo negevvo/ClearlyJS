@@ -507,14 +507,6 @@
 		this.go(this.url, true);
 	}
 
-	/**
-	 * Goes to the same URL, but without the search and hash elements
-	 * @see pageUrl
-	 */
-	static pageURL(){
-		this.go(this.pageUrl);
-	}
-
 
 	// **************************** COOKIES ****************************
 
@@ -726,18 +718,18 @@
  */
 class Switchable extends clrly.component{
 	constructor(props){
-	  super(props);
+	  	super(props);
 	}
 	appendTo(parent, props = {}){
-	  this.switcherParent = parent;
-	  this.sProps = props;
-	  this.start();
-	  this.update();
+		this.switcherParent = parent;
+		this.sProps = props;
+		this.start();
+		this.update();
 	}
 	start(){
-	  this.HTML.editAttributes({
-		parent: this.switcherParent
-	  })
+		this.HTML.editAttributes({
+			parent: this.switcherParent
+		});
 	}
 	onSwitch(){}
 	get isSwitchable(){ return true; }
@@ -745,49 +737,49 @@ class Switchable extends clrly.component{
 
 /**
  * SwitcherRouterBase
- * @todo document this (?)
+ * @todo document this
  */
 class _SwitcherRouterBase extends clrly.component{
 	constructor(props){
-	  super(props);
-	  this.state = props;
-	  this.registerUpdate("state");
-	  this.clear();
+		super(props);
+		this.state = props;
+		this.registerUpdate("state");
+		this.clear();
+	}
+	get element(){
+		const PARENT = clrly.new("div");
+	  	let current = this.state.current;
+		if(this._switchables == {} || current == null) return PARENT;
+		let rc = this._get(this instanceof Router ? current.route : current.name);
+		if(rc && rc.isSwitchable){
+			if(this instanceof Router) window.history.pushState({}, "", current.route);
+			rc.appendTo(PARENT, current.props);
+			rc.onSwitch();
+		}
+		return PARENT;
+	}
+	add(identifier, switchable){
+		this._switchables[identifier] = switchable;
+		switchable.HTML.remove();
+		return identifier;
 	}
 	set current(current){
-	  this.state.current = current;
+	  	this.state.current = current;
+	}
+	clear(){
+		this._switchables = {};
 	}
 }
 
-/**
- * The ClearlyJS Switcher
- * @todo document this
- */
 class Switcher extends _SwitcherRouterBase{
-	get element(){
-	  const PARENT = clrly.new("div");
-	  let screen = this.state.current || {i: 0, props: {}};
-	  if(this.screens.length == 0) return PARENT;
-	  if(screen.i > this.screens.length || screen.i < 1) screen.i = 1;
-	  else{
-		let sc = this.screens[screen.i - 1];
-		if(sc.isSwitchable){
-		  sc.appendTo(PARENT, screen.props);
-		  sc.onSwitch();
-		}
-	  }
-	  return PARENT;
+	constructor(props){
+		super(props);
 	}
-	addScreen(screen){
-	  this.screens.push(screen);
-	  screen.HTML.remove();
-	  return this.screens.length;
+	_get(name){
+		return this._switchables[name];
 	}
-	get currentId(){
-	  return this.state.current.i;
-	}
-	clear(){
-	  this.screens = [];
+	get currentName(){
+		return this.state.current.name;
 	}
 }
 
@@ -798,46 +790,29 @@ class Switcher extends _SwitcherRouterBase{
 class Router extends _SwitcherRouterBase{
 	static get NOT_FOUND_PATH(){ return "/404" };
 	constructor(props){
-	  super(props);
-	  window.onpopstate = this.initialize;
+	  	super(props);
+	  	window.onpopstate = this.initialize;
 	}
-	get element(){
-	  const PARENT = clrly.new("div");
-	  let route = this.state.current;
-	  if(this.routes == {} || route == null) return PARENT;
-	  let rc = this.#getRoute(route.route);
-	  if(rc.isSwitchable){
-		window.history.pushState({}, "", route.route);
-		rc.appendTo(PARENT, route.props);
-		rc.onSwitch();
-	  }
-	  return PARENT;
-	}
-	#getRoute(route){
-		for(let expectedRoute in this.routes){
+	_get(route){
+		for(let expectedRoute in this._switchables){
 			if(expectedRoute.match(`^${route}/?$`)){
-				return this.routes[expectedRoute];
+				return this._switchables[expectedRoute];
 			}
 		}
-		return this.routes[Router.NOT_FOUND_PATH];
-	}
-	addRoute(route, routeable){
-	  this.routes[route] = routeable;
-	  routeable.HTML.remove();
-	  return route;
+		return this._switchables[Router.NOT_FOUND_PATH];
 	}
 	get currentRoute(){
-	  return this.state.current.route;
+	  	return this.state.current.route;
 	}
 	clear(){
-	  this.routes = {};
-	  this.addRoute(Router.NOT_FOUND_PATH, this.state.notFound);
+		super.clear();
+	  	this.add(Router.NOT_FOUND_PATH, this.state.notFound);
 	}
 	async initialize(){
-	  this.current = {
-		route: window.location.pathname,
-		props: {}
-	  };
+		this.current = {
+			route: window.location.pathname,
+			props: {}
+		};
 	}
 }
 
@@ -847,15 +822,15 @@ class Router extends _SwitcherRouterBase{
  */
 class Sdiv extends Switchable{
 	constructor(props){
-	  super(props);
-	  this.state = props;
-	  this.registerUpdate("state");
+		super(props);
+		this.state = props;
+		this.registerUpdate("state");
 	}
 	get element(){
-	  return clrly.new("div", {}, ...this.state.children);
+	  	return clrly.new("div", {}, ...this.state.children);
 	}
 	onSwitch(){
-	  if(this.state.onSwitch) this.state.onSwitch();
+	  	if(this.state.onSwitch) this.state.onSwitch();
 	}
 }
 
