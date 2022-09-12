@@ -73,7 +73,7 @@
 			if(typeof type != typeof "") attributes.from = type;
 			return this.#newElementFromComponent(attributes, children);
 		}
-		var newElement = this.#newElement(type);
+		var newElement = this.#newElement(type, attributes["render"] !== false && attributes["render"] !== "false");
 		this.editAttributes(newElement, attributes);
 		this.#appendChildrenToElement(newElement, children);
 		/**
@@ -105,9 +105,15 @@
 		}
 	}
 
-	static #newElement(type){
+	static render(toRender, render = true, parent = document.body){
+		let el = toRender.isClearlyComponent ? toRender.HTML : toRender;
+		if(render) parent.appendChild(el);
+		else el.remove();
+	}
+
+	static #newElement(type, render = true){
 		var newElement = document.createElement(type);
-		document.body.appendChild(newElement);
+		this.render(newElement, render);
 		return newElement;
 	}
 
