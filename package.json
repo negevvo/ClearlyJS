@@ -18,5 +18,8 @@
     "bugs": {
         "url": "https://github.com/negevvo/ClearlyJS/issues"
     },
-    "homepage": "https://negevvo.github.io/ClearlyJS/"
+    "homepage": "https://negevvo.github.io/ClearlyJS/",
+    "devDependencies": {
+        "typescript": "^5.4.5"
+    }
 }
