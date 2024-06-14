@@ -1,0 +1,22 @@
+{
+    "name": "clearlyjs",
+    "version": "0.1.0",
+    "description": "Make it simple! ClearlyJS was designed for making small-scale apps in no time, using a familiar syntax and the greatness of vanilla JavaScript.",
+    "main": "clearly.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/negevvo/ClearlyJS.git"
+    },
+    "keywords": [
+        "clearlyjs"
+    ],
+    "author": "negevvo",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/negevvo/ClearlyJS/issues"
+    },
+    "homepage": "https://negevvo.github.io/ClearlyJS/"
+}
