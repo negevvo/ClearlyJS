@@ -2,8 +2,8 @@
     "name": "clearlyjs",
     "version": "0.1.0",
     "description": "Make it simple! ClearlyJS was designed for making small-scale apps in no time, using a familiar syntax and the greatness of vanilla JavaScript.",
-    "main": "dist/bundle.cjs.js",
-    "module": "dist/bundle.esm.js",
+    "main": "dist/clearly.cjs.js",
+    "module": "dist/clearly.esm.js",
     "typings": "dist/index.d.ts",
     "files": [
         "/src",

@@ -7,19 +7,19 @@ export default {
     input: "src/index.ts",
     output: [
         {
-            file: "dist/bundle.cjs.js",
+            file: "dist/clearly.cjs.js",
             format: "cjs",
             sourcemap: true,
         },
         {
-            file: "dist/bundle.esm.js",
+            file: "dist/clearly.esm.js",
             format: "es",
             sourcemap: true,
         },
         {
-            file: "dist/bundle.umd.js",
+            file: "dist/clearly.umd.js",
             format: "umd",
-            name: "MyLibrary",
+            name: "ClearlyJS",
             sourcemap: true,
         },
     ],
