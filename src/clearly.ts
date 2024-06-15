@@ -1098,10 +1098,10 @@ export class Router extends SwitcherRouterBase<
  * A pre-made Switchable div element - to use in Switcher and Router.
  * Currently, Sdiv doesn't support properties.
  */
-export class Sdiv extends Switchable<HTMLDivElement> {
+export class Sdiv extends Switchable<Partial<HTMLDivElement>> {
     element() {
         const { children, ...props } = this.state;
-        return clrly.new("div", props, ...children);
+        return clrly.new("div", props, ...(children as any));
     }
     onSwitch() {
         this.state.onSwitch?.();
