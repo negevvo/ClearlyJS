@@ -2,9 +2,17 @@
     "name": "clearlyjs",
     "version": "0.1.0",
     "description": "Make it simple! ClearlyJS was designed for making small-scale apps in no time, using a familiar syntax and the greatness of vanilla JavaScript.",
-    "main": "clearly.js",
+    "main": "dist/bundle.cjs.js",
+    "module": "dist/bundle.esm.js",
+    "typings": "dist/index.d.ts",
+    "files": [
+        "/src",
+        "/dist"
+    ],
+    "type": "module",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "build": "rollup -c",
+        "pack": "npm run build && npm pack"
     },
     "repository": {
         "type": "git",
@@ -20,6 +28,11 @@
     },
     "homepage": "https://negevvo.github.io/ClearlyJS/",
     "devDependencies": {
+        "@rollup/plugin-commonjs": "^26.0.1",
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@rollup/plugin-typescript": "^11.1.6",
+        "rollup": "^4.18.0",
         "typescript": "^5.4.5"
     }
 }
